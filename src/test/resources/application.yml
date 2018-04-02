@@ -5,3 +5,10 @@ spring:
     level:
         root: INFO
         mx.dads.infotec.core: DEBUG
+
+application:
+    gitlab:
+        api-url: http://localhost
+        security:
+            token: secret
+            token-header-name: private_token

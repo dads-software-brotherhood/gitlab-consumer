@@ -6,3 +6,10 @@ spring:
         root: WARN
         org.springframework: ERROR
         mx.dads.infotec.core: INFO
+
+application:
+    gitlab:
+        api-url: https://gitlab.dads.infotec.mx/api/v4
+        security:
+            token: secret
+            token-header-name: private_token

@@ -1,4 +1,4 @@
-package mx.dads.infotec.core.gitlab.rest;
+package mx.dads.infotec.core.gitlab.consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
