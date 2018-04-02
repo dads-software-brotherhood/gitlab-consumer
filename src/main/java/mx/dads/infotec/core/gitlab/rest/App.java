@@ -1,5 +1,7 @@
 package mx.dads.infotec.core.gitlab.rest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,6 +13,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class App implements CommandLineRunner {
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(App.class);
+    
     public static void main(String[] args) throws Exception {
         SpringApplication.run(App.class, args);
     }
@@ -18,7 +22,6 @@ public class App implements CommandLineRunner {
     //access command line arguments
     @Override
     public void run(String... args) throws Exception {
-
-        //do something
+        LOGGER.debug("Params num: {}", args.length);
     }
 }
