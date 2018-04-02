@@ -60,12 +60,18 @@ public class GitlabRetrieverService {
 
         LOGGER.debug("URI: {}", uri);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(applicationProperties.getGitlab().getSecurity().getTokenHeaderName(), applicationProperties.getGitlab().getSecurity().getToken());
-
-        HttpEntity<String> httpEntity = new HttpEntity<>("parameters", headers);
-
-        ResponseEntity<GroupDTO[]> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, GroupDTO[].class);
+        ResponseEntity<GroupDTO[]> responseEntity;
+                
+        if (applicationProperties.getGitlab().getSecurity().getToken() != null && !applicationProperties.getGitlab().getSecurity().getToken().isEmpty()) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.set(applicationProperties.getGitlab().getSecurity().getTokenHeaderName(), applicationProperties.getGitlab().getSecurity().getToken());
+            
+            HttpEntity<String> httpEntity = new HttpEntity<>("parameters", headers);
+            
+            responseEntity = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, GroupDTO[].class);
+        } else {
+            responseEntity = restTemplate.exchange(uri, HttpMethod.GET, HttpEntity.EMPTY, GroupDTO[].class);
+        }
 
         ListElementDTO<GroupDTO> listElementDTO = new ListElementDTO<>();
 
