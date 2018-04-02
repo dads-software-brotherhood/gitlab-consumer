@@ -9,8 +9,10 @@
     </parent>
 
     <groupId>mx.dads.infotec.core</groupId>
-    <artifactId>gitlab-rest</artifactId>
+    <artifactId>gitlab-consumer</artifactId>
     <version>1.0-SNAPSHOT</version>
+    
+    <name>gitlab consumer</name>
     
     <packaging>jar</packaging>
     
