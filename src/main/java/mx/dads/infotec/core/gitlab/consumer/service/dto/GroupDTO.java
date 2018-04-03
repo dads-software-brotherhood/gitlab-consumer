@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
+ * Gitlab group respnse info.
  *
+ * @see https://docs.gitlab.com/ee/api/groups.html
  * @author erik.valdivieso
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -18,12 +21,19 @@ public class GroupDTO implements Serializable {
     private String path;
     private String description;
     private String visibility;
+    @JsonProperty("lfs_enabled")
     private Boolean lfsEnabled;
+    @JsonProperty("avatar_url")
     private String avatarUrl;
+    @JsonProperty("web_url")
     private String webUrl;
+    @JsonProperty("request_access_enabled")
     private Boolean requestAccessEnabled;
+    @JsonProperty("full_name")
     private String fullName;
+    @JsonProperty("full_path")
     private String fullPath;
+    @JsonProperty("parent_id")
     private Integer parentId;
 
     private Statistics statistics;
@@ -150,6 +160,9 @@ public class GroupDTO implements Serializable {
         this.subgroups = subgroups;
     }
 
+    /**
+     * Gitlab group's statictics info.
+     */
     public class Statistics {
 
         private int storageSize;
