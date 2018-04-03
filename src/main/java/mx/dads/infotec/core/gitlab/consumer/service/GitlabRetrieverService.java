@@ -29,10 +29,15 @@ public class GitlabRetrieverService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GitlabRetrieverService.class);
 
+    public static final String GROUPS = "/groups";
+    
     private String getGroupsUrl;
 
     @Autowired
     private ApplicationProperties applicationProperties;
+    
+    @Autowired
+    private RestTemplate restTemplate;
     
     @PostConstruct
     protected void init() {
@@ -40,12 +45,14 @@ public class GitlabRetrieverService {
             LOGGER.debug("GitLab URL : {}", applicationProperties.getGitlab().getApiUrl());
         }
 
-        getGroupsUrl = applicationProperties.getGitlab().getApiUrl() + "/groups";
+        getGroupsUrl = applicationProperties.getGitlab().getApiUrl() + GROUPS;
+    }
+    
+    public ListElementDTO<GroupDTO> getGroups() {
+        return getGroups(null);
     }
     
     public ListElementDTO<GroupDTO> getGroups(PageInfoDTO pageInfoDTO) {
-        RestTemplate restTemplate = new RestTemplate();
-
         UriComponentsBuilder ucb = UriComponentsBuilder.fromHttpUrl(getGroupsUrl);
 
         if (pageInfoDTO != null && pageInfoDTO.getPage() != null) {
