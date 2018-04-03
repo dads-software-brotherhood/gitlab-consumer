@@ -1,1 +1,66 @@
-
+[{
+        "id": 7,
+        "name": "arquitectura-old",
+        "path": "arquitectura-old",
+        "description": "Grupo de la antigua torre/coordinación de arquitectura",
+        "visibility": "public",
+        "lfs_enabled": true,
+        "avatar_url": null,
+        "web_url": "http://gitlab.dads.infotec.mx/groups/arquitectura-old",
+        "request_access_enabled": true,
+        "full_name": "arquitectura-old",
+        "full_path": "arquitectura-old",
+        "parent_id": null
+    }, {
+        "id": 175,
+        "name": "B2B",
+        "path": "B2B",
+        "description": "",
+        "visibility": "public",
+        "lfs_enabled": true,
+        "avatar_url": null,
+        "web_url": "http://gitlab.dads.infotec.mx/groups/B2B",
+        "request_access_enabled": true,
+        "full_name": "B2B",
+        "full_path": "B2B",
+        "parent_id": null
+    }, {
+        "id": 261,
+        "name": "ciatec",
+        "path": "ciatec",
+        "description": "",
+        "visibility": "private",
+        "lfs_enabled": true,
+        "avatar_url": "http://gitlab.dads.infotec.mx/uploads/-/system/group/avatar/261/ciatec.png",
+        "web_url": "http://gitlab.dads.infotec.mx/groups/ciatec",
+        "request_access_enabled": false,
+        "full_name": "ciatec",
+        "full_path": "ciatec",
+        "parent_id": null
+    }, {
+        "id": 254,
+        "name": "cidp",
+        "path": "cidp",
+        "description": "Competitive Industry Development Platform, Plataforma para el Desarrollo de Industria Competitiva\r\n",
+        "visibility": "internal",
+        "lfs_enabled": true,
+        "avatar_url": null,
+        "web_url": "http://gitlab.dads.infotec.mx/groups/dotnet-arq/cidp",
+        "request_access_enabled": false,
+        "full_name": "Arquitectura .NET / cidp",
+        "full_path": "dotnet-arq/cidp",
+        "parent_id": 253
+    }, {
+        "id": 24,
+        "name": "cima",
+        "path": "cima",
+        "description": "Proyectos para CIMA",
+        "visibility": "public",
+        "lfs_enabled": true,
+        "avatar_url": null,
+        "web_url": "http://gitlab.dads.infotec.mx/groups/cima",
+        "request_access_enabled": true,
+        "full_name": "cima",
+        "full_path": "cima",
+        "parent_id": null
+    }]
