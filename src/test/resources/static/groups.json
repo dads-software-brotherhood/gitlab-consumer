@@ -5,12 +5,12 @@
         "description": "Grupo de la antigua torre/coordinación de arquitectura",
         "visibility": "public",
         "lfs_enabled": true,
-        "avatar_url": null,
+        "avatar_url": "http://gitlab.dads.infotec.mx/groups/arquitectura-old/avatar",
         "web_url": "http://gitlab.dads.infotec.mx/groups/arquitectura-old",
         "request_access_enabled": true,
         "full_name": "arquitectura-old",
         "full_path": "arquitectura-old",
-        "parent_id": null
+        "parent_id": 1
     }, {
         "id": 175,
         "name": "B2B",

@@ -21,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
+ * Internal service for retrieve gitlab info from gitlab api v4.
  *
  * @author erik.valdivieso
  */
@@ -29,16 +30,28 @@ public class GitlabRetrieverService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GitlabRetrieverService.class);
 
+    /**
+     * Groups api path.
+     */
     public static final String GROUPS = "/groups";
-    
+    /**
+     * Firts part of projects groups path.
+     */
+    public static final String PROJECTS_GROUP_PART1 = "/groups/";
+    /**
+     * Last part of projects groups path.
+     */
+    public static final String PROJECTS_GROUP_PART2 = "/projects";
+
     private String getGroupsUrl;
+    private String getProjectsUrlPart;
 
     @Autowired
     private ApplicationProperties applicationProperties;
-    
+
     @Autowired
     private RestTemplate restTemplate;
-    
+
     @PostConstruct
     protected void init() {
         if (LOGGER.isDebugEnabled()) {
@@ -46,12 +59,25 @@ public class GitlabRetrieverService {
         }
 
         getGroupsUrl = applicationProperties.getGitlab().getApiUrl() + GROUPS;
+        getProjectsUrlPart = applicationProperties.getGitlab().getApiUrl() + PROJECTS_GROUP_PART1;
     }
-    
+
+    /**
+     * Get groups list.
+     *
+     * @return Groups list with pagination info.
+     */
     public ListElementDTO<GroupDTO> getGroups() {
         return getGroups(null);
     }
-    
+
+    /**
+     * Get groups list.
+     *
+     * @param pageInfoDTO Pagintation info (page and perPAge attributes are
+     * required).
+     * @return Groups list with pagination info.
+     */
     public ListElementDTO<GroupDTO> getGroups(PageInfoDTO pageInfoDTO) {
         UriComponentsBuilder ucb = UriComponentsBuilder.fromHttpUrl(getGroupsUrl);
 
@@ -67,18 +93,7 @@ public class GitlabRetrieverService {
 
         LOGGER.debug("URI: {}", uri);
 
-        ResponseEntity<GroupDTO[]> responseEntity;
-                
-        if (applicationProperties.getGitlab().getSecurity().getToken() != null && !applicationProperties.getGitlab().getSecurity().getToken().isEmpty()) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.set(applicationProperties.getGitlab().getSecurity().getTokenHeaderName(), applicationProperties.getGitlab().getSecurity().getToken());
-            
-            HttpEntity<String> httpEntity = new HttpEntity<>("parameters", headers);
-            
-            responseEntity = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, GroupDTO[].class);
-        } else {
-            responseEntity = restTemplate.exchange(uri, HttpMethod.GET, HttpEntity.EMPTY, GroupDTO[].class);
-        }
+        ResponseEntity<GroupDTO[]> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, buildAuthHeaders(), GroupDTO[].class);
 
         ListElementDTO<GroupDTO> listElementDTO = new ListElementDTO<>();
 
@@ -88,8 +103,33 @@ public class GitlabRetrieverService {
         return listElementDTO;
     }
 
+    /**
+     * Get group's projects list.
+     *
+     * @param idGroup Group ID
+     * @return Group
+     */
     public ListElementDTO<ProjectDTO> getProjects(int idGroup) {
-        return null;
+        ResponseEntity<ProjectDTO[]> responseEntity = restTemplate.exchange(buildProjectGroupsUrl(idGroup), HttpMethod.GET, buildAuthHeaders(), ProjectDTO[].class);
+
+        ListElementDTO<ProjectDTO> listElementDTO = new ListElementDTO<>();
+        listElementDTO.setList(Arrays.asList(responseEntity.getBody()));
+
+        return listElementDTO;
+    }
+
+    private HttpEntity buildAuthHeaders() {
+        HttpEntity httpEntity;
+
+        if (applicationProperties.getGitlab().getSecurity().getToken() != null && !applicationProperties.getGitlab().getSecurity().getToken().isEmpty()) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.set(applicationProperties.getGitlab().getSecurity().getTokenHeaderName(), applicationProperties.getGitlab().getSecurity().getToken());
+            httpEntity = new HttpEntity<>("parameters", headers);
+        } else {
+            httpEntity = HttpEntity.EMPTY;
+        }
+
+        return httpEntity;
     }
 
     private PageInfoDTO buildPageInfoDTO(HttpHeaders headers) {
@@ -126,5 +166,11 @@ public class GitlabRetrieverService {
         }
 
         return null;
+    }
+
+    private String buildProjectGroupsUrl(int idGroup) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getProjectsUrlPart).append(idGroup).append(PROJECTS_GROUP_PART2);
+        return sb.toString();
     }
 }

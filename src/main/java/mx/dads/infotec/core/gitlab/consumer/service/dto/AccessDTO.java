@@ -4,8 +4,14 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+/**
+ * Gitlab group and project access response info.
+ * 
+ * @see https://docs.gitlab.com/ee/api/groups.html
+ * @author erik.valdivieso
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GroupAccessDTO implements Serializable {
+public class AccessDTO implements Serializable {
 
     private final static long serialVersionUID = 4225399062237425426L;
     

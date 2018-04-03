@@ -6,23 +6,23 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PermissionsDTO implements Serializable {
 
-    private Object projectAccess;
-    private GroupAccessDTO groupAccess;
+    private AccessDTO projectAccess;
+    private AccessDTO groupAccess;
     private final static long serialVersionUID = -7056866224852616193L;
 
-    public Object getProjectAccess() {
+    public AccessDTO getProjectAccess() {
         return projectAccess;
     }
 
-    public void setProjectAccess(Object projectAccess) {
+    public void setProjectAccess(AccessDTO projectAccess) {
         this.projectAccess = projectAccess;
     }
 
-    public GroupAccessDTO getGroupAccess() {
+    public AccessDTO getGroupAccess() {
         return groupAccess;
     }
 
-    public void setGroupAccess(GroupAccessDTO groupAccess) {
+    public void setGroupAccess(AccessDTO groupAccess) {
         this.groupAccess = groupAccess;
     }
 
