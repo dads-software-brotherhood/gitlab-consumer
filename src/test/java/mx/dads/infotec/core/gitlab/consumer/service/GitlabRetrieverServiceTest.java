@@ -1,11 +1,8 @@
 package mx.dads.infotec.core.gitlab.consumer.service;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import mx.dads.infotec.core.gitlab.consumer.service.dto.GroupDTO;
 import mx.dads.infotec.core.gitlab.consumer.service.dto.ListElementDTO;
+import mx.dads.infotec.core.gitlab.consumer.util.TextUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -18,6 +15,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import org.junit.Before;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpHeaders;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
@@ -31,6 +29,8 @@ public class GitlabRetrieverServiceTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GitlabRetrieverServiceTest.class);
 
+    private static final String JSON_LIST = "[]";
+    
     @Autowired
     private GitlabRetrieverService gitlabRetrieverService;
 
@@ -45,18 +45,24 @@ public class GitlabRetrieverServiceTest {
 
         Resource resource = resourceLoader.getResource("classpath:static/groups.json");
 
-        String res = null;
+        String res;
 
         if (resource.exists()) {
-            res = read(resource);
+            res = TextUtils.readText(resource, JSON_LIST);
+        } else {
+            res = JSON_LIST;
         }
         
-        if (res == null) {
-            res = "[]";
-        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-Next-Page", "3");
+        headers.add("X-Page", "2");
+        headers.add("X-Per-Page", "5");
+        headers.add("X-Prev-Page", "1");
+        headers.add("X-Total", "40");
+        headers.add("X-Total-Pages", "8");
 
         this.server.expect(requestTo("http://localhost" + GitlabRetrieverService.GROUPS))
-                .andRespond(withSuccess(res, MediaType.APPLICATION_JSON_UTF8));
+                .andRespond(withSuccess(res, MediaType.APPLICATION_JSON_UTF8).headers(headers));
     }
 
     @Test
@@ -65,6 +71,7 @@ public class GitlabRetrieverServiceTest {
 
         assert tmp.getList().size() == 5 : "Expect 5 elements";
         assert tmp.getPageInfoDTO() != null : "Expect page info data";
+        assert tmp.getPageInfoDTO().getTotal() != null : "Total info";
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug(tmp.getPageInfoDTO().toString());
@@ -73,25 +80,6 @@ public class GitlabRetrieverServiceTest {
 
             tmp.getList().forEach((groupDTO) -> LOGGER.debug(groupDTO.toString()));
         }
-    }
-
-    private String read(Resource resource) {
-
-        try (InputStream is = resource.getInputStream()) {
-            StringBuilder sb = new StringBuilder();
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line).append('\n');
-            }
-
-            return sb.toString();
-        } catch (IOException ex) {
-            LOGGER.error("Error at read", ex);
-        }
-
-        return null;
     }
 
 }
