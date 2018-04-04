@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -13,12 +12,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @see https://docs.gitlab.com/ee/api/groups.html
  * @author erik.valdivieso
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class GroupDTO implements Serializable {
+public class GroupDTO extends BasicGitlabElementDTO implements Serializable {
 
-    private Integer id;
-    private String name;
-    private String path;
+    private static final long serialVersionUID = -56589274600677895L;
+
     private String description;
     private String visibility;
     @JsonProperty("lfs_enabled")
@@ -39,30 +36,6 @@ public class GroupDTO implements Serializable {
     private Statistics statistics;
     private List<GroupDTO> subgroups;
     private List<ProjectDTO> projects = new ArrayList<>(0);
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
 
     public String getDescription() {
         return description;
@@ -163,8 +136,10 @@ public class GroupDTO implements Serializable {
     /**
      * Gitlab group's statictics info.
      */
-    public class Statistics {
+    public class Statistics implements Serializable {
 
+        private static final long serialVersionUID = 735658927460677895L;
+    
         private int storageSize;
         private int repositorySize;
         private int lfsObjectsSize;

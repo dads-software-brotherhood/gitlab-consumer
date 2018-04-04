@@ -1,44 +1,17 @@
 package mx.dads.infotec.core.gitlab.consumer.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+public class NamespaceDTO extends BasicGitlabElementDTO implements Serializable {
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class NamespaceDTO implements Serializable {
+    private static final long serialVersionUID = 7356589274600677895L;
 
-    private final static long serialVersionUID = 7356589274600677895L;
-
-    private Integer id;
-    private String name;
-    private String path;
     private String kind;
+    @JsonProperty("full_path")
     private String fullPath;
+    @JsonProperty("parent_id")
     private Integer parentId;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
 
     public String getKind() {
         return kind;
@@ -66,7 +39,7 @@ public class NamespaceDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "Namespace{" + "id=" + id + ", name=" + name + ", path=" + path + ", kind=" + kind + ", fullPath=" + fullPath + ", parentId=" + parentId + '}';
+        return "Namespace{" + "id=" + getId() + ", name=" + getName() + ", path=" + getPath() + ", kind=" + kind + ", fullPath=" + fullPath + ", parentId=" + parentId + '}';
     }
 
 }
