@@ -5,8 +5,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * Properties specific to Gitlab Rest.
  * <p>
- * Properties are configured in the application.yml file.
- * See {@link io.github.jhipster.config.JHipsterProperties} for a good example.
+ * Properties are configured in the application.yml file. See
+ * {@link io.github.jhipster.config.JHipsterProperties} for a good example.
  */
 @ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)
 public class ApplicationProperties {
@@ -20,9 +20,9 @@ public class ApplicationProperties {
     public void setGitlab(Gitlab gitlab) {
         this.gitlab = gitlab;
     }
-    
+
     public static class Gitlab {
-        
+
         private String apiUrl = "http://localhost";
         private Security security = new Security();
 
@@ -41,9 +41,9 @@ public class ApplicationProperties {
         public void setSecurity(Security security) {
             this.security = security;
         }
-        
+
         public static class Security {
-            
+
             private String token = "";
             private String tokenHeaderName = "private_token";
 

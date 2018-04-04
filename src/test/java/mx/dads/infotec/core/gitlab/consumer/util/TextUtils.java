@@ -13,7 +13,7 @@ import org.springframework.core.io.Resource;
  * @author erik.valdivieso
  */
 public final class TextUtils {
-    
+
     private final static Logger LOGGER = LoggerFactory.getLogger(TextUtils.class);
 
     public static String readText(Resource resource) {

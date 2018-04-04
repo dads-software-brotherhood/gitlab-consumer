@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @author erik.valdivieso
  */
 public class PageInfoDTO implements Serializable {
-    
+
     private Integer page;
     private Integer perPage;
     private Integer total;
@@ -61,6 +61,5 @@ public class PageInfoDTO implements Serializable {
     public String toString() {
         return "PageInfoDTO{" + "page=" + page + ", perPage=" + perPage + ", total=" + total + ", totalPages=" + totalPages + '}';
     }
-
 
 }

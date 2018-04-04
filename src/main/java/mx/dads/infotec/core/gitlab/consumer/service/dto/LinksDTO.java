@@ -1,4 +1,3 @@
-
 package mx.dads.infotec.core.gitlab.consumer.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

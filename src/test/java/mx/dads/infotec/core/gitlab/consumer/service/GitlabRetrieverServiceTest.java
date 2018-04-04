@@ -90,7 +90,7 @@ public class GitlabRetrieverServiceTest {
 
             tmp.getList().forEach((groupDTO) -> LOGGER.debug(groupDTO.toString()));
         }
-        
+
         assert tmp.getList().get(0).getId() != null && tmp.getList().get(0).getId() == 7 : "Expect ID 7 in firts element";
         assert tmp.getList().get(0).getName() != null && tmp.getList().get(0).getName().equals("arquitectura-old") : "Expect 'arquitectura-old' as name";
         assert tmp.getList().get(0).getVisibility() != null && tmp.getList().get(0).getVisibility().equals("public") : "Expect 'public' as visibility";

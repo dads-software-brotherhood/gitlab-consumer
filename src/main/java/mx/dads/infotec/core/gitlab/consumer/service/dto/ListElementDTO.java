@@ -8,7 +8,7 @@ import java.util.List;
  * @author erik.valdivieso
  */
 public class ListElementDTO<T> implements Serializable {
-    
+
     private List<T> list;
     private PageInfoDTO pageInfoDTO;
 
