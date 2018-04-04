@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @author erik.valdivieso
  */
-public class ListElementDTO<T> implements Serializable {
+public class ListElementDTO<T extends Serializable> implements Serializable {
 
     private List<T> list;
     private PageInfoDTO pageInfoDTO;
