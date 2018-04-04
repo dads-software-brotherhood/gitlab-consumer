@@ -10,5 +10,5 @@ application:
     gitlab:
         api-url: http://localhost
         security:
-            token: 
+            token: dummy
             token-header-name: private_token

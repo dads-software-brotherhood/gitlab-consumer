@@ -2,6 +2,7 @@ package mx.dads.infotec.core.gitlab.consumer.service;
 
 import mx.dads.infotec.core.gitlab.consumer.service.dto.GroupDTO;
 import mx.dads.infotec.core.gitlab.consumer.service.dto.ListElementDTO;
+import mx.dads.infotec.core.gitlab.consumer.service.dto.PageInfoDTO;
 import mx.dads.infotec.core.gitlab.consumer.service.dto.ProjectDTO;
 import mx.dads.infotec.core.gitlab.consumer.util.TextUtils;
 import org.junit.Test;
@@ -45,11 +46,19 @@ public class GitlabRetrieverServiceTest {
 
     private String contentGroups;
     private String contentProjectsGroup;
+    private HttpHeaders groupsHeaders;
 
     @Before
     public void setup() {
         contentGroups = loadContent("groups.json");
         contentProjectsGroup = loadContent("projects-group.json");
+        groupsHeaders = new HttpHeaders();
+        groupsHeaders.add("X-Next-Page", "3");
+        groupsHeaders.add("X-Page", "2");
+        groupsHeaders.add("X-Per-Page", "5");
+        groupsHeaders.add("X-Prev-Page", "1");
+        groupsHeaders.add("X-Total", "40");
+        groupsHeaders.add("X-Total-Pages", "8");
     }
 
     private String loadContent(String file) {
@@ -64,19 +73,22 @@ public class GitlabRetrieverServiceTest {
 
     @Test
     public void getGroupsTest() {
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Next-Page", "3");
-        headers.add("X-Page", "2");
-        headers.add("X-Per-Page", "5");
-        headers.add("X-Prev-Page", "1");
-        headers.add("X-Total", "40");
-        headers.add("X-Total-Pages", "8");
-
         this.server.expect(requestTo(URL + GitlabRetrieverService.GROUPS))
-                .andRespond(withSuccess(contentGroups, MediaType.APPLICATION_JSON_UTF8).headers(headers));
+                .andRespond(withSuccess(contentGroups, MediaType.APPLICATION_JSON_UTF8).headers(groupsHeaders));
 
         ListElementDTO<GroupDTO> tmp = this.gitlabRetrieverService.getGroups();
+
+        assert tmp != null && tmp.getList() != null : "Return is invalid";
+        assert tmp.getPageInfoDTO() != null : "Expect page info data";
+        assert tmp.getPageInfoDTO().getTotal() != null : "Total info";
+    }
+
+    @Test
+    public void getGroupsTestParam() {
+        this.server.expect(requestTo(URL + GitlabRetrieverService.GROUPS + "?page=2&per_page=40"))
+                .andRespond(withSuccess(contentGroups, MediaType.APPLICATION_JSON_UTF8).headers(groupsHeaders));
+
+        ListElementDTO<GroupDTO> tmp = this.gitlabRetrieverService.getGroups(new PageInfoDTO(2, 40));
 
         assert tmp != null && tmp.getList() != null : "Return is invalid";
         assert tmp.getList().size() == 5 : "Expect 5 elements";
