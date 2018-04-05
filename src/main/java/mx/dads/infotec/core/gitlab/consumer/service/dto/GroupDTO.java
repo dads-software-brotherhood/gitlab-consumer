@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * Gitlab group respnse info.
  *
@@ -18,19 +16,12 @@ public class GroupDTO extends BasicGitlabElementDTO implements Serializable {
 
     private String description;
     private String visibility;
-    @JsonProperty("lfs_enabled")
     private Boolean lfsEnabled;
-    @JsonProperty("avatar_url")
     private String avatarUrl;
-    @JsonProperty("web_url")
     private String webUrl;
-    @JsonProperty("request_access_enabled")
     private Boolean requestAccessEnabled;
-    @JsonProperty("full_name")
     private String fullName;
-    @JsonProperty("full_path")
     private String fullPath;
-    @JsonProperty("parent_id")
     private Integer parentId;
 
     private Statistics statistics;
@@ -139,7 +130,7 @@ public class GroupDTO extends BasicGitlabElementDTO implements Serializable {
     public class Statistics implements Serializable {
 
         private static final long serialVersionUID = 735658927460677895L;
-    
+
         private int storageSize;
         private int repositorySize;
         private int lfsObjectsSize;

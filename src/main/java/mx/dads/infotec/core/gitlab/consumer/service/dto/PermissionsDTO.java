@@ -7,7 +7,7 @@ import java.io.Serializable;
 public class PermissionsDTO implements Serializable {
 
     private static final long serialVersionUID = -7056866224852616193L;
-    
+
     private AccessDTO projectAccess;
     private AccessDTO groupAccess;
 

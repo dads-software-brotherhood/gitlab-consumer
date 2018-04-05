@@ -1,6 +1,5 @@
 package mx.dads.infotec.core.gitlab.consumer.service.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 
 public class NamespaceDTO extends BasicGitlabElementDTO implements Serializable {
@@ -8,9 +7,7 @@ public class NamespaceDTO extends BasicGitlabElementDTO implements Serializable 
     private static final long serialVersionUID = 7356589274600677895L;
 
     private String kind;
-    @JsonProperty("full_path")
     private String fullPath;
-    @JsonProperty("parent_id")
     private Integer parentId;
 
     public String getKind() {

@@ -11,7 +11,7 @@ import java.io.Serializable;
 public abstract class BasicGitlabElementDTO implements Serializable {
 
     private static final long serialVersionUID = 7356584600677895L;
-    
+
     private Integer id;
     private String name;
     private String path;
