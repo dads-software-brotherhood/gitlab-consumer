@@ -19,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableConfigurationProperties({ApplicationProperties.class})
 public class App implements CommandLineRunner {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(App.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
@@ -33,7 +33,7 @@ public class App implements CommandLineRunner {
         LOGGER.debug("Params num: {}", args.length);
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         SpringApplication.run(App.class, args);
     }
 }

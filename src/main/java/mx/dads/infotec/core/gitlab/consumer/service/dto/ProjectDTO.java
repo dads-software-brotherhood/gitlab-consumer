@@ -7,7 +7,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProjectDTO implements Serializable {
 
-    private final static long serialVersionUID = -7969787330924185559L;
+    private static final long serialVersionUID = -7969787330924185559L;
 
     private Integer id;
     private String description;
@@ -17,11 +17,11 @@ public class ProjectDTO implements Serializable {
     private String pathWithNamespace;
     private String createdAt;
     private String defaultBranch;
-    private List<Object> tagList = null;
+    private List<String> tagList = null;
     private String sshUrlToRepo;
     private String httpUrlToRepo;
     private String webUrl;
-    private Object avatarUrl;
+    private String avatarUrl;
     private Integer starCount;
     private Integer forksCount;
     private String lastActivityAt;
@@ -116,11 +116,11 @@ public class ProjectDTO implements Serializable {
         this.defaultBranch = defaultBranch;
     }
 
-    public List<Object> getTagList() {
+    public List<String> getTagList() {
         return tagList;
     }
 
-    public void setTagList(List<Object> tagList) {
+    public void setTagList(List<String> tagList) {
         this.tagList = tagList;
     }
 
@@ -148,11 +148,11 @@ public class ProjectDTO implements Serializable {
         this.webUrl = webUrl;
     }
 
-    public Object getAvatarUrl() {
+    public String getAvatarUrl() {
         return avatarUrl;
     }
 
-    public void setAvatarUrl(Object avatarUrl) {
+    public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
     }
 

@@ -6,6 +6,7 @@ import java.util.List;
 /**
  *
  * @author erik.valdivieso
+ * @param <T> An serializable object
  */
 public class ListElementDTO<T extends Serializable> implements Serializable {
 

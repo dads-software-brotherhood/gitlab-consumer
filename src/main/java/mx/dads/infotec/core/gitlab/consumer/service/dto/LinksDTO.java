@@ -6,7 +6,7 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LinksDTO implements Serializable {
 
-    private final static long serialVersionUID = 2783751251249165910L;
+    private static final long serialVersionUID = 2783751251249165910L;
 
     private String self;
     private String issues;

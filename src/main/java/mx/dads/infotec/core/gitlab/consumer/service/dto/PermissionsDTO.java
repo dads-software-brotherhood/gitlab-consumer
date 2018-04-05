@@ -6,9 +6,10 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PermissionsDTO implements Serializable {
 
+    private static final long serialVersionUID = -7056866224852616193L;
+    
     private AccessDTO projectAccess;
     private AccessDTO groupAccess;
-    private final static long serialVersionUID = -7056866224852616193L;
 
     public AccessDTO getProjectAccess() {
         return projectAccess;

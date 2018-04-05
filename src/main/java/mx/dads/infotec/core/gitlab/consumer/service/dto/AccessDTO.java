@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AccessDTO implements Serializable {
 
-    private final static long serialVersionUID = 4225399062237425426L;
+    private static final long serialVersionUID = 4225399062237425426L;
 
     private Integer accessLevel;
     private Integer notificationLevel;
