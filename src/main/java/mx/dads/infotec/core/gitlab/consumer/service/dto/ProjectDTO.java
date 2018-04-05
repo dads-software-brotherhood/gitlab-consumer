@@ -44,7 +44,7 @@ public class ProjectDTO implements Serializable {
     private Integer openIssuesCount;
     private String runnersToken;
     private Boolean publicJobs;
-    private Object ciConfigPath;
+    private String ciConfigPath;
     private List<Object> sharedWithGroups = null;
     private Boolean onlyAllowMergeIfPipelineSucceeds;
     private Boolean requestAccessEnabled;
@@ -332,11 +332,11 @@ public class ProjectDTO implements Serializable {
         this.publicJobs = publicJobs;
     }
 
-    public Object getCiConfigPath() {
+    public String getCiConfigPath() {
         return ciConfigPath;
     }
 
-    public void setCiConfigPath(Object ciConfigPath) {
+    public void setCiConfigPath(String ciConfigPath) {
         this.ciConfigPath = ciConfigPath;
     }
 
