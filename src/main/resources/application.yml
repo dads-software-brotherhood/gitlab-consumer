@@ -1,6 +1,9 @@
 spring:
-  main:
-    banner-mode: "off"
+#  main:
+#    banner-mode: "off"
+  output:
+    ansi:
+      enabled: DETECT
   logging:
     level:
         root: WARN
