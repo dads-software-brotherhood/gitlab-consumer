@@ -10,7 +10,9 @@ import java.util.List;
  */
 public class ListElementDTO<T extends Serializable> implements Serializable {
 
-    private List<T> list;
+    private static final long serialVersionUID = 1L;
+    
+	private List<T> list;
     private PageInfoDTO pageInfoDTO;
 
     public List<T> getList() {

@@ -118,8 +118,8 @@ public class GitlabRetrieverService {
         return listElementDTO;
     }
 
-    private HttpEntity buildAuthHeaders() {
-        HttpEntity httpEntity;
+    private HttpEntity<?> buildAuthHeaders() {
+        HttpEntity<?> httpEntity;
 
         if (applicationProperties.getGitlab().getSecurity().getToken() != null && !applicationProperties.getGitlab().getSecurity().getToken().isEmpty()) {
             HttpHeaders headers = new HttpHeaders();

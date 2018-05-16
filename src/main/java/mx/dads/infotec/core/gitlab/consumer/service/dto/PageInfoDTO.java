@@ -8,7 +8,9 @@ import java.io.Serializable;
  */
 public class PageInfoDTO implements Serializable {
 
-    private Integer page;
+    private static final long serialVersionUID = 1L;
+    
+	private Integer page;
     private Integer perPage;
     private Integer total;
     private Integer totalPages;
