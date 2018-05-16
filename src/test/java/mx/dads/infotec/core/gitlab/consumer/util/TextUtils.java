@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 
 /**
+ * Clase de utilidades para las pruebas.
  *
  * @author erik.valdivieso
  */
