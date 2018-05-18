@@ -1,0 +1,329 @@
+[
+    {
+        "id": "a6ef8ace9fc7adc8886d6f15c91a685fb61ad8a6",
+        "short_id": "a6ef8ace",
+        "title": "Merge branch 'QA' into 'develop'",
+        "created_at": "2018-04-02T14:27:05.000-05:00",
+        "parent_ids": [
+            "bad67193a377c1244bbb014595983621a2a7a09a",
+            "b68b3681691fc3e9c7c784a5f621398f19f54e08"
+        ],
+        "message": "Merge branch 'QA' into 'develop'\n\nQA to develop\n\nSee merge request repositorio-nacional/repositorio-institucional!19",
+        "author_name": "Victor Daniel Gutierrez Rodriguez",
+        "author_email": "vdaniel.gr@gmail.com",
+        "authored_date": "2018-04-02T14:27:05.000-05:00",
+        "committer_name": "Victor Daniel Gutierrez Rodriguez",
+        "committer_email": "vdaniel.gr@gmail.com",
+        "committed_date": "2018-04-02T14:27:05.000-05:00"
+    },
+    {
+        "id": "b68b3681691fc3e9c7c784a5f621398f19f54e08",
+        "short_id": "b68b3681",
+        "title": "Merge branch 'hotfixes' into 'QA'",
+        "created_at": "2018-04-02T14:25:08.000-05:00",
+        "parent_ids": [
+            "ad7c67f12e5f138eb616b3677fe1ab53cdd33740",
+            "21f3d292accffbfce25fc544619c6956621287f0"
+        ],
+        "message": "Merge branch 'hotfixes' into 'QA'\n\nMerge hotfixes to QA\n\nSee merge request repositorio-nacional/repositorio-institucional!18",
+        "author_name": "Victor Daniel Gutierrez Rodriguez",
+        "author_email": "vdaniel.gr@gmail.com",
+        "authored_date": "2018-04-02T14:25:08.000-05:00",
+        "committer_name": "Victor Daniel Gutierrez Rodriguez",
+        "committer_email": "vdaniel.gr@gmail.com",
+        "committed_date": "2018-04-02T14:25:08.000-05:00"
+    },
+    {
+        "id": "21f3d292accffbfce25fc544619c6956621287f0",
+        "short_id": "21f3d292",
+        "title": "Auto stash before merge of \"hotfixes\" and \"origin/hotfixes\"",
+        "created_at": "2018-03-27T13:28:24.000-06:00",
+        "parent_ids": [
+            "83547b88678a7170da14aaa8ed35f93ab1672e20"
+        ],
+        "message": "Auto stash before merge of \"hotfixes\" and \"origin/hotfixes\"\n\nSe cambia Nombre del RI por Nombre de la institución",
+        "author_name": "webster velsa",
+        "author_email": "websterv@gmail.com",
+        "authored_date": "2018-03-27T13:28:24.000-06:00",
+        "committer_name": "webster velsa",
+        "committer_email": "websterv@gmail.com",
+        "committed_date": "2018-03-27T13:28:24.000-06:00"
+    },
+    {
+        "id": "ad7c67f12e5f138eb616b3677fe1ab53cdd33740",
+        "short_id": "ad7c67f1",
+        "title": "Merge branch 'develop' into 'QA'",
+        "created_at": "2018-03-20T17:40:04.000-06:00",
+        "parent_ids": [
+            "31b4f4fae7abc6da13fdbca746a6708de53a53e1",
+            "bad67193a377c1244bbb014595983621a2a7a09a"
+        ],
+        "message": "Merge branch 'develop' into 'QA'\n\nDevelop to QA\n\nSee merge request repositorio-nacional/repositorio-institucional!16",
+        "author_name": "Victor Daniel Gutierrez Rodriguez",
+        "author_email": "vdaniel.gr@gmail.com",
+        "authored_date": "2018-03-20T17:40:04.000-06:00",
+        "committer_name": "Victor Daniel Gutierrez Rodriguez",
+        "committer_email": "vdaniel.gr@gmail.com",
+        "committed_date": "2018-03-20T17:40:04.000-06:00"
+    },
+    {
+        "id": "bad67193a377c1244bbb014595983621a2a7a09a",
+        "short_id": "bad67193",
+        "title": "Merge branch 'QA' into 'develop'",
+        "created_at": "2018-03-16T15:45:24.000-06:00",
+        "parent_ids": [
+            "bf992d4109e40dbd496e7500ec2112caa4165cc7",
+            "31b4f4fae7abc6da13fdbca746a6708de53a53e1"
+        ],
+        "message": "Merge branch 'QA' into 'develop'\n\n# Conflicts:\n#   dspace-oai/src/main/java/org/dspace/xoai/util/ItemUtils.java\n#   dspace/modules/infotec-service-api-impl/src/main/java/mx/infotec/repositorio/dspace/addons/model/Persona.java",
+        "author_name": "Victor Daniel Gutierrez Rodriguez",
+        "author_email": "vdaniel.gr@gmail.com",
+        "authored_date": "2018-03-16T15:45:24.000-06:00",
+        "committer_name": "Victor Daniel Gutierrez Rodriguez",
+        "committer_email": "vdaniel.gr@gmail.com",
+        "committed_date": "2018-03-16T15:45:24.000-06:00"
+    },
+    {
+        "id": "bf992d4109e40dbd496e7500ec2112caa4165cc7",
+        "short_id": "bf992d41",
+        "title": "Actualizacion de nombre de columna",
+        "created_at": "2018-03-14T13:59:43.000-06:00",
+        "parent_ids": [
+            "4945a0b96ddd77a335f2612db3b9eaf375869440"
+        ],
+        "message": "Actualizacion de nombre de columna\n",
+        "author_name": "Victor Daniel",
+        "author_email": "vdaniel.gr@gmail.com",
+        "authored_date": "2018-03-14T13:59:43.000-06:00",
+        "committer_name": "Victor Daniel",
+        "committer_email": "vdaniel.gr@gmail.com",
+        "committed_date": "2018-03-14T13:59:43.000-06:00"
+    },
+    {
+        "id": "4945a0b96ddd77a335f2612db3b9eaf375869440",
+        "short_id": "4945a0b9",
+        "title": "Validacion de obligatorio el campo de Tiene Identificador para carga masiva",
+        "created_at": "2018-03-12T13:29:58.000-06:00",
+        "parent_ids": [
+            "827d7f430e811079cdc715352f925022c3531192"
+        ],
+        "message": "Validacion de obligatorio el campo de Tiene Identificador para carga masiva\n",
+        "author_name": "Victor Daniel",
+        "author_email": "vdaniel.gr@gmail.com",
+        "authored_date": "2018-03-12T13:29:58.000-06:00",
+        "committer_name": "Victor Daniel",
+        "committer_email": "vdaniel.gr@gmail.com",
+        "committed_date": "2018-03-12T13:29:58.000-06:00"
+    },
+    {
+        "id": "827d7f430e811079cdc715352f925022c3531192",
+        "short_id": "827d7f43",
+        "title": "Carrecciones y validacion a la carga de autor",
+        "created_at": "2018-03-12T11:18:42.000-06:00",
+        "parent_ids": [
+            "8045317185535659b8a0b85b87e22288278a3b66"
+        ],
+        "message": "Carrecciones y validacion a la carga de autor\n",
+        "author_name": "Victor Daniel",
+        "author_email": "vdaniel.gr@gmail.com",
+        "authored_date": "2018-03-12T11:18:42.000-06:00",
+        "committer_name": "Victor Daniel",
+        "committer_email": "vdaniel.gr@gmail.com",
+        "committed_date": "2018-03-12T11:18:42.000-06:00"
+    },
+    {
+        "id": "8045317185535659b8a0b85b87e22288278a3b66",
+        "short_id": "80453171",
+        "title": "Validación es extranjero y sin identificador",
+        "created_at": "2018-03-06T17:04:09.000-06:00",
+        "parent_ids": [
+            "d85f8ff3a8d3f23667f0b8f44a1996229495aa7f"
+        ],
+        "message": "Validación es extranjero y sin identificador\n",
+        "author_name": "Victor Daniel",
+        "author_email": "vdaniel.gr@gmail.com",
+        "authored_date": "2018-03-06T17:04:09.000-06:00",
+        "committer_name": "Victor Daniel",
+        "committer_email": "vdaniel.gr@gmail.com",
+        "committed_date": "2018-03-06T17:04:09.000-06:00"
+    },
+    {
+        "id": "d85f8ff3a8d3f23667f0b8f44a1996229495aa7f",
+        "short_id": "d85f8ff3",
+        "title": "cambio el orcid ya tiene - en la base de datos",
+        "created_at": "2018-03-06T11:56:32.000-06:00",
+        "parent_ids": [
+            "0f0632f58f46ad1e2c0773d52dbc7848e74d7365"
+        ],
+        "message": "cambio el orcid ya tiene - en la base de datos",
+        "author_name": "benjamin.vander",
+        "author_email": "benjamin.vander@DADSV03BBVF0236.infotec.mx",
+        "authored_date": "2018-03-06T11:56:32.000-06:00",
+        "committer_name": "benjamin.vander",
+        "committer_email": "benjamin.vander@DADSV03BBVF0236.infotec.mx",
+        "committed_date": "2018-03-06T11:56:32.000-06:00"
+    },
+    {
+        "id": "83547b88678a7170da14aaa8ed35f93ab1672e20",
+        "short_id": "83547b88",
+        "title": "Add ignore unknow properties",
+        "created_at": "2018-03-05T21:20:40.000-06:00",
+        "parent_ids": [
+            "e036862425da22ad791d75ff7440947c0b3494df"
+        ],
+        "message": "Add ignore unknow properties",
+        "author_name": "Erik Valdivieso",
+        "author_email": "erik.valdivieso@infotec.mx",
+        "authored_date": "2018-03-05T21:20:40.000-06:00",
+        "committer_name": "Erik Valdivieso",
+        "committer_email": "erik.valdivieso@infotec.mx",
+        "committed_date": "2018-03-05T21:20:40.000-06:00"
+    },
+    {
+        "id": "31b4f4fae7abc6da13fdbca746a6708de53a53e1",
+        "short_id": "31b4f4fa",
+        "title": "Merge branch 'hotfixes' into 'master'",
+        "created_at": "2018-03-05T21:13:22.000-06:00",
+        "parent_ids": [
+            "79452db96193e992902929cf21b1bfa7892a9c78",
+            "83547b88678a7170da14aaa8ed35f93ab1672e20"
+        ],
+        "message": "Merge branch 'hotfixes' into 'master'\n\nHotfixes to master\n\nSee merge request repositorio-nacional/repositorio-institucional!15",
+        "author_name": "Victor Daniel Gutierrez Rodriguez",
+        "author_email": "vdaniel.gr@gmail.com",
+        "authored_date": "2018-03-05T21:13:22.000-06:00",
+        "committer_name": "Victor Daniel Gutierrez Rodriguez",
+        "committer_email": "vdaniel.gr@gmail.com",
+        "committed_date": "2018-03-05T21:13:22.000-06:00"
+    },
+    {
+        "id": "e036862425da22ad791d75ff7440947c0b3494df",
+        "short_id": "e0368624",
+        "title": "Merge branch 'master' into 'hotfixes'",
+        "created_at": "2018-03-05T20:35:43.000-06:00",
+        "parent_ids": [
+            "e2e307a74dbc78beb0e8e24232bd51a7bd531b21",
+            "79452db96193e992902929cf21b1bfa7892a9c78"
+        ],
+        "message": "Merge branch 'master' into 'hotfixes'\n\nMaster to hotfixes\n\nSee merge request repositorio-nacional/repositorio-institucional!14",
+        "author_name": "Victor Daniel Gutierrez Rodriguez",
+        "author_email": "vdaniel.gr@gmail.com",
+        "authored_date": "2018-03-05T20:35:43.000-06:00",
+        "committer_name": "Victor Daniel Gutierrez Rodriguez",
+        "committer_email": "vdaniel.gr@gmail.com",
+        "committed_date": "2018-03-05T20:35:43.000-06:00"
+    },
+    {
+        "id": "79452db96193e992902929cf21b1bfa7892a9c78",
+        "short_id": "79452db9",
+        "title": "Merge branch 'revert-7b989297' into 'master'",
+        "created_at": "2018-03-05T20:24:02.000-06:00",
+        "parent_ids": [
+            "7b9892970860ca0e738a4770aa01ee36df265abe",
+            "a25173cc45bbf5e9d9371ea23a2fc6c4b5df27b1"
+        ],
+        "message": "Merge branch 'revert-7b989297' into 'master'\n\nRevert \"Merge branch 'develop' into 'master'\"\n\nSee merge request repositorio-nacional/repositorio-institucional!13",
+        "author_name": "Victor Daniel Gutierrez Rodriguez",
+        "author_email": "vdaniel.gr@gmail.com",
+        "authored_date": "2018-03-05T20:24:02.000-06:00",
+        "committer_name": "Victor Daniel Gutierrez Rodriguez",
+        "committer_email": "vdaniel.gr@gmail.com",
+        "committed_date": "2018-03-05T20:24:02.000-06:00"
+    },
+    {
+        "id": "a25173cc45bbf5e9d9371ea23a2fc6c4b5df27b1",
+        "short_id": "a25173cc",
+        "title": "Revert \"Merge branch 'develop' into 'master'\"",
+        "created_at": "2018-03-05T20:23:52.000-06:00",
+        "parent_ids": [
+            "7b9892970860ca0e738a4770aa01ee36df265abe"
+        ],
+        "message": "Revert \"Merge branch 'develop' into 'master'\"\n\nThis reverts merge request !11",
+        "author_name": "Victor Daniel Gutierrez Rodriguez",
+        "author_email": "vdaniel.gr@gmail.com",
+        "authored_date": "2018-03-05T20:23:52.000-06:00",
+        "committer_name": "Victor Daniel Gutierrez Rodriguez",
+        "committer_email": "vdaniel.gr@gmail.com",
+        "committed_date": "2018-03-05T20:23:52.000-06:00"
+    },
+    {
+        "id": "0f0632f58f46ad1e2c0773d52dbc7848e74d7365",
+        "short_id": "0f0632f5",
+        "title": "Correccion para mostrar datos del autor correctos",
+        "created_at": "2018-03-02T17:17:43.000-06:00",
+        "parent_ids": [
+            "eafb3394153ebd7771cb7f926da3bee0ab3274fa"
+        ],
+        "message": "Correccion para mostrar datos del autor correctos\n",
+        "author_name": "Victor Daniel",
+        "author_email": "vdaniel.gr@gmail.com",
+        "authored_date": "2018-03-02T17:17:43.000-06:00",
+        "committer_name": "Victor Daniel",
+        "committer_email": "vdaniel.gr@gmail.com",
+        "committed_date": "2018-03-02T17:17:43.000-06:00"
+    },
+    {
+        "id": "eafb3394153ebd7771cb7f926da3bee0ab3274fa",
+        "short_id": "eafb3394",
+        "title": "Alta masivo para autores sin identificador para repositorio institucional",
+        "created_at": "2018-03-01T18:25:24.000-06:00",
+        "parent_ids": [
+            "9e6b5a69e1bf030f7cdb1c7cc3cb85af547f6e11"
+        ],
+        "message": "Alta masivo para autores sin identificador para repositorio institucional\n",
+        "author_name": "Victor Daniel",
+        "author_email": "vdaniel.gr@gmail.com",
+        "authored_date": "2018-03-01T18:25:24.000-06:00",
+        "committer_name": "Victor Daniel",
+        "committer_email": "vdaniel.gr@gmail.com",
+        "committed_date": "2018-03-01T18:25:24.000-06:00"
+    },
+    {
+        "id": "9e6b5a69e1bf030f7cdb1c7cc3cb85af547f6e11",
+        "short_id": "9e6b5a69",
+        "title": "Auto stash before merge of \"develop\" and \"origin/develop\"",
+        "created_at": "2018-03-01T13:07:56.000-06:00",
+        "parent_ids": [
+            "012e0efd0d7dfa758c93e4108cdb7a1828ef6de0"
+        ],
+        "message": "Auto stash before merge of \"develop\" and \"origin/develop\"\n\nSe agrega colunma en vista para carga masiva",
+        "author_name": "webster velsa",
+        "author_email": "websterv@gmail.com",
+        "authored_date": "2018-03-01T13:07:56.000-06:00",
+        "committer_name": "webster velsa",
+        "committer_email": "websterv@gmail.com",
+        "committed_date": "2018-03-01T13:07:56.000-06:00"
+    },
+    {
+        "id": "012e0efd0d7dfa758c93e4108cdb7a1828ef6de0",
+        "short_id": "012e0efd",
+        "title": "Update dspace.cfg para quitar el RN antes del identificador",
+        "created_at": "2018-02-28T21:02:31.000-06:00",
+        "parent_ids": [
+            "e97c016ef13f63067e7d4c63bad9706822915d3f"
+        ],
+        "message": "Update dspace.cfg para quitar el RN antes del identificador",
+        "author_name": "Benjamin Vander Stichelen",
+        "author_email": "benjamin.vander@infotec.mx",
+        "authored_date": "2018-02-28T21:02:31.000-06:00",
+        "committer_name": "Benjamin Vander Stichelen",
+        "committer_email": "benjamin.vander@infotec.mx",
+        "committed_date": "2018-02-28T21:02:31.000-06:00"
+    },
+    {
+        "id": "e97c016ef13f63067e7d4c63bad9706822915d3f",
+        "short_id": "e97c016e",
+        "title": "Validación todo bien pero no dni",
+        "created_at": "2018-02-28T21:24:23.000-06:00",
+        "parent_ids": [
+            "c563ac4290e3263f0c94f15f1de0b0c07f70b6ec"
+        ],
+        "message": "Validación todo bien pero no dni",
+        "author_name": "benjivds",
+        "author_email": "Fere7101",
+        "authored_date": "2018-02-28T21:24:23.000-06:00",
+        "committer_name": "benjivds",
+        "committer_email": "Fere7101",
+        "committed_date": "2018-02-28T21:24:23.000-06:00"
+    }
+]

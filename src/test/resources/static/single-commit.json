@@ -1,0 +1,25 @@
+{
+    "id": "bad67193a377c1244bbb014595983621a2a7a09a",
+    "short_id": "bad67193",
+    "title": "Merge branch 'QA' into 'develop'",
+    "created_at": "2018-03-16T15:45:24.000-06:00",
+    "parent_ids": [
+        "bf992d4109e40dbd496e7500ec2112caa4165cc7",
+        "31b4f4fae7abc6da13fdbca746a6708de53a53e1"
+    ],
+    "message": "Merge branch 'QA' into 'develop'\n\n# Conflicts:\n#   dspace-oai/src/main/java/org/dspace/xoai/util/ItemUtils.java\n#   dspace/modules/infotec-service-api-impl/src/main/java/mx/infotec/repositorio/dspace/addons/model/Persona.java",
+    "author_name": "Victor Daniel Gutierrez Rodriguez",
+    "author_email": "vdaniel.gr@gmail.com",
+    "authored_date": "2018-03-16T15:45:24.000-06:00",
+    "committer_name": "Victor Daniel Gutierrez Rodriguez",
+    "committer_email": "vdaniel.gr@gmail.com",
+    "committed_date": "2018-03-16T15:45:24.000-06:00",
+    "stats": {
+        "additions": 45,
+        "deletions": 12,
+        "total": 57
+    },
+    "status": null,
+    "last_pipeline": null,
+    "project_id": 22
+}
