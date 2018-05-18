@@ -7,14 +7,10 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({ "id", "short_id", "title", "created_at", "parent_ids", "message", "author_name", "author_email",
-        "authored_date", "committer_name", "committer_email", "committed_date", "stats", "status", "last_pipeline",
-        "project_id" })
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CommitDTO implements Serializable {
 
     @JsonProperty("id")
