@@ -1,17 +1,16 @@
 package mx.dads.infotec.core.gitlab.consumer.service.dto;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CommitDTO implements Serializable {
+
+    private final static long serialVersionUID = 7082147429372623785L;
 
     @JsonProperty("id")
     private String id;
@@ -20,7 +19,7 @@ public class CommitDTO implements Serializable {
     @JsonProperty("title")
     private String title;
     @JsonProperty("created_at")
-    private String createdAt;
+    private Date createdAt;
     @JsonProperty("parent_ids")
     private List<String> parentIds = null;
     @JsonProperty("message")
@@ -30,24 +29,21 @@ public class CommitDTO implements Serializable {
     @JsonProperty("author_email")
     private String authorEmail;
     @JsonProperty("authored_date")
-    private String authoredDate;
+    private Date authoredDate;
     @JsonProperty("committer_name")
     private String committerName;
     @JsonProperty("committer_email")
     private String committerEmail;
     @JsonProperty("committed_date")
-    private String committedDate;
+    private Date committedDate;
     @JsonProperty("stats")
     private CommitStatsDTO stats;
     @JsonProperty("status")
-    private Object status;
+    private String status;
     @JsonProperty("last_pipeline")
-    private Object lastPipeline;
+    private PipelineDTO lastPipeline;
     @JsonProperty("project_id")
     private Integer projectId;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = 7082147429372623785L;
 
     @JsonProperty("id")
     public String getId() {
@@ -80,12 +76,12 @@ public class CommitDTO implements Serializable {
     }
 
     @JsonProperty("created_at")
-    public String getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
     @JsonProperty("created_at")
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -130,12 +126,12 @@ public class CommitDTO implements Serializable {
     }
 
     @JsonProperty("authored_date")
-    public String getAuthoredDate() {
+    public Date getAuthoredDate() {
         return authoredDate;
     }
 
     @JsonProperty("authored_date")
-    public void setAuthoredDate(String authoredDate) {
+    public void setAuthoredDate(Date authoredDate) {
         this.authoredDate = authoredDate;
     }
 
@@ -160,12 +156,12 @@ public class CommitDTO implements Serializable {
     }
 
     @JsonProperty("committed_date")
-    public String getCommittedDate() {
+    public Date getCommittedDate() {
         return committedDate;
     }
 
     @JsonProperty("committed_date")
-    public void setCommittedDate(String committedDate) {
+    public void setCommittedDate(Date committedDate) {
         this.committedDate = committedDate;
     }
 
@@ -180,22 +176,22 @@ public class CommitDTO implements Serializable {
     }
 
     @JsonProperty("status")
-    public Object getStatus() {
+    public String getStatus() {
         return status;
     }
 
     @JsonProperty("status")
-    public void setStatus(Object status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
     @JsonProperty("last_pipeline")
-    public Object getLastPipeline() {
+    public PipelineDTO getLastPipeline() {
         return lastPipeline;
     }
 
     @JsonProperty("last_pipeline")
-    public void setLastPipeline(Object lastPipeline) {
+    public void setLastPipeline(PipelineDTO lastPipeline) {
         this.lastPipeline = lastPipeline;
     }
 
@@ -208,15 +204,4 @@ public class CommitDTO implements Serializable {
     public void setProjectId(Integer projectId) {
         this.projectId = projectId;
     }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
 }
