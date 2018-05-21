@@ -1,27 +1,36 @@
 package mx.dads.infotec.core.gitlab.consumer.service;
 
-import mx.dads.infotec.core.gitlab.consumer.service.dto.GroupDTO;
-import mx.dads.infotec.core.gitlab.consumer.service.dto.ListElementDTO;
-import mx.dads.infotec.core.gitlab.consumer.service.dto.PageInfoDTO;
-import mx.dads.infotec.core.gitlab.consumer.service.dto.ProjectDTO;
-import mx.dads.infotec.core.gitlab.consumer.util.TextUtils;
+import static mx.dads.infotec.core.gitlab.consumer.service.ServiceConstants.GROUPS;
+import static mx.dads.infotec.core.gitlab.consumer.service.ServiceConstants.GROUP_PROJECTS;
+import static mx.dads.infotec.core.gitlab.consumer.service.ServiceConstants.PROJECT_COMMITS;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+
+import java.text.MessageFormat;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.client.MockRestServiceServer;
-import org.junit.Before;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.client.MockRestServiceServer;
+
+import mx.dads.infotec.core.gitlab.consumer.service.dto.CommitDTO;
+import mx.dads.infotec.core.gitlab.consumer.service.dto.GroupDTO;
+import mx.dads.infotec.core.gitlab.consumer.service.dto.ListElementDTO;
+import mx.dads.infotec.core.gitlab.consumer.service.dto.PageInfoDTO;
+import mx.dads.infotec.core.gitlab.consumer.service.dto.ProjectDTO;
+import mx.dads.infotec.core.gitlab.consumer.util.TextUtils;
 
 /**
+ * GitlabRetrieverService Test.
  *
  * @author erik.valdivieso
  */
@@ -33,7 +42,11 @@ public class GitlabRetrieverServiceTest {
 
     private static final String JSON_LIST = "[]";
     private static final String URL = "http://localhost";
-    private static final int ID_GROUP = 1;
+    private static final Integer ID_GROUP = 1;
+    private static final Integer ID_PROJECT = 22;
+
+    private static MessageFormat getProjectsUrlFormat = new MessageFormat(URL + GROUP_PROJECTS);
+    private static MessageFormat getProjectsCommitsUrlFormat = new MessageFormat(URL + PROJECT_COMMITS);
 
     @Autowired
     private GitlabRetrieverService gitlabRetrieverService;
@@ -44,14 +57,18 @@ public class GitlabRetrieverServiceTest {
     @Autowired
     private ResourceLoader resourceLoader;
 
-    private String contentGroups;
-    private String contentProjectsGroup;
+    private String groupsContent;
+    private String groupProjectsContent;
+    private String projectCommitsContent;
+
     private HttpHeaders groupsHeaders;
 
     @Before
     public void setup() {
-        contentGroups = loadContent("groups.json");
-        contentProjectsGroup = loadContent("projects-group.json");
+        groupsContent = loadContent("groups.json");
+        groupProjectsContent = loadContent("group-projects.json");
+        projectCommitsContent = loadContent("project-commits.json");
+
         groupsHeaders = new HttpHeaders();
         groupsHeaders.add("X-Next-Page", "3");
         groupsHeaders.add("X-Page", "2");
@@ -73,46 +90,58 @@ public class GitlabRetrieverServiceTest {
 
     @Test
     public void getGroupsTest() {
-        this.server.expect(requestTo(URL + GitlabRetrieverService.GROUPS))
-                .andRespond(withSuccess(contentGroups, MediaType.APPLICATION_JSON_UTF8).headers(groupsHeaders));
-
-        ListElementDTO<GroupDTO> tmp = this.gitlabRetrieverService.getGroups();
-
-        assert tmp != null && tmp.getList() != null : "Return is invalid";
-        assert tmp.getPageInfoDTO() != null : "Expect page info data";
-        assert tmp.getPageInfoDTO().getTotal() != null : "Total info";
+        groupsTest(null);
     }
 
     @Test
     public void getGroupsTestParam() {
-        this.server.expect(requestTo(URL + GitlabRetrieverService.GROUPS + "?page=2&per_page=40"))
-                .andRespond(withSuccess(contentGroups, MediaType.APPLICATION_JSON_UTF8).headers(groupsHeaders));
+        groupsTest(new PageInfoDTO(2, 5));
+    }
 
-        ListElementDTO<GroupDTO> tmp = this.gitlabRetrieverService.getGroups(new PageInfoDTO(2, 40));
+    private void groupsTest(PageInfoDTO pageInfoDTO) {
+        ListElementDTO<GroupDTO> groupsDto;
 
-        assert tmp != null && tmp.getList() != null : "Return is invalid";
-        assert tmp.getList().size() == 5 : "Expect 5 elements";
-        assert tmp.getPageInfoDTO() != null : "Expect page info data";
-        assert tmp.getPageInfoDTO().getTotal() != null : "Total info";
+        if (pageInfoDTO == null) {
+            this.server.expect(requestTo(URL + GROUPS))
+                    .andRespond(withSuccess(groupsContent, MediaType.APPLICATION_JSON_UTF8).headers(groupsHeaders));
+            groupsDto = this.gitlabRetrieverService.getGroups();
+        } else {
+            this.server
+                    .expect(requestTo(
+                            URL + GROUPS + "?page=" + pageInfoDTO.getPage() + "&per_page=" + pageInfoDTO.getPerPage()))
+                    .andRespond(withSuccess(groupsContent, MediaType.APPLICATION_JSON_UTF8).headers(groupsHeaders));
+            groupsDto = this.gitlabRetrieverService.getGroups(pageInfoDTO);
+        }
+
+        assert groupsDto != null && groupsDto.getList() != null : "Return is invalid";
+        assert groupsDto.getList().size() == 5 : "Expect 5 elements";
+        assert groupsDto.getPageInfoDTO() != null : "Expect page info data";
+        assert groupsDto.getPageInfoDTO().getTotal() != null
+                && groupsDto.getPageInfoDTO().getTotal() == 40 : "40 Elements as total info";
 
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug(tmp.getPageInfoDTO().toString());
+            LOGGER.debug(groupsDto.getPageInfoDTO().toString());
 
             LOGGER.debug("Groups list:");
 
-            tmp.getList().forEach((groupDTO) -> LOGGER.debug(groupDTO.toString()));
+            groupsDto.getList().forEach((groupDTO) -> LOGGER.debug(groupDTO.toString()));
         }
 
-        assert tmp.getList().get(0).getId() != null && tmp.getList().get(0).getId() == 7 : "Expect ID 7 in firts element";
-        assert tmp.getList().get(0).getName() != null && tmp.getList().get(0).getName().equals("arquitectura-old") : "Expect 'arquitectura-old' as name";
-        assert tmp.getList().get(0).getVisibility() != null && tmp.getList().get(0).getVisibility().equals("public") : "Expect 'public' as visibility";
-        assert tmp.getList().get(0).getWebUrl() != null && tmp.getList().get(0).getWebUrl().equals("http://gitlab.dads.infotec.mx/groups/arquitectura-old") : "Expect 'http://gitlab.dads.infotec.mx/groups/arquitectura-old' in webUrl";
+        GroupDTO groupDTO = groupsDto.getList().get(0);
+
+        assert groupDTO.getId() != null && groupDTO.getId() == 7 : "Expect ID 7 in firts element";
+        assert groupDTO.getName() != null
+                && groupDTO.getName().equals("arquitectura-old") : "Expect 'arquitectura-old' as name";
+        assert groupDTO.getVisibility() != null
+                && groupDTO.getVisibility().equals("public") : "Expect 'public' as visibility";
+        assert groupDTO.getWebUrl() != null && groupDTO.getWebUrl().equals(
+                "http://gitlab.dads.infotec.mx/groups/arquitectura-old") : "Expect 'http://gitlab.dads.infotec.mx/groups/arquitectura-old' in webUrl";
     }
 
     @Test
     public void getProjectGroupsTest() {
-        this.server.expect(requestTo(URL + GitlabRetrieverService.PROJECTS_GROUP_PART1 + ID_GROUP + GitlabRetrieverService.PROJECTS_GROUP_PART2))
-                .andRespond(withSuccess(contentProjectsGroup, MediaType.APPLICATION_JSON_UTF8));
+        this.server.expect(requestTo(getProjectsUrlFormat.format(new Object[] { ID_GROUP })))
+                .andRespond(withSuccess(groupProjectsContent, MediaType.APPLICATION_JSON_UTF8));
 
         ListElementDTO<ProjectDTO> projects = this.gitlabRetrieverService.getProjects(ID_GROUP);
 
@@ -122,6 +151,32 @@ public class GitlabRetrieverServiceTest {
             LOGGER.debug("Projects list:");
             projects.getList().forEach((projectDTO) -> LOGGER.debug(projectDTO.toString()));
         }
+
+        ProjectDTO projectDTO = projects.getList().get(0);
+
+        assert projectDTO.getId() != null && projectDTO.getId() == 227 : "Expect 227 as ID";
+        assert projectDTO.getName() != null
+                && projectDTO.getName().equals("Conacyt-Catalogos") : "Expect 'Conacyt-Catalogos' as Name";
+        assert projectDTO.getDefaultBranch() != null
+                && projectDTO.getDefaultBranch().equals("master") : "Expect master as Default Branch";
+        assert projectDTO.getLinks() != null : "Except links not null";
+        assert projectDTO.getNamespace() != null : "Except namespace not null";
+    }
+
+    @Test
+    public void getCommitsTest() {
+        this.server.expect(requestTo(getProjectsCommitsUrlFormat.format(new Object[] { ID_PROJECT })))
+                .andRespond(withSuccess(projectCommitsContent, MediaType.APPLICATION_JSON_UTF8).headers(groupsHeaders));
+
+        ListElementDTO<CommitDTO> commitsDto = this.gitlabRetrieverService.getCommits(ID_PROJECT);
+
+        assert commitsDto != null && commitsDto.getList() != null : "Return is invalid";
+        assert commitsDto.getPageInfoDTO() != null : "Expect page info data";
+        assert commitsDto.getPageInfoDTO().getTotal() != null : "Total info";
+    }
+
+    public void getCommitsWithPageInfoTest() {
+
     }
 
 }

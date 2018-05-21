@@ -1,6 +1,8 @@
 package mx.dads.infotec.core.gitlab.consumer.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -25,6 +27,7 @@ public class ProjectDTO implements Serializable {
     private Integer starCount;
     private Integer forksCount;
     private String lastActivityAt;
+    @JsonProperty("_links")
     private LinksDTO links;
     private Boolean archived;
     private String visibility;
