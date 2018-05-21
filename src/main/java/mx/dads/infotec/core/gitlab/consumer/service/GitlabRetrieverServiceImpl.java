@@ -78,8 +78,13 @@ public class GitlabRetrieverServiceImpl implements GitlabRetrieverService {
 
     @Override
     public ListElementDTO<ProjectDTO> getProjects(int idGroup) throws RestClientException {
-        ResponseEntity<ProjectDTO[]> responseEntity = restTemplate.exchange(
-                getGroupProjectsUrlFormat.format(new Object[] { idGroup }), HttpMethod.GET, buildAuthHeaders(),
+        return getProjects(idGroup, null);
+    }
+
+    @Override
+    public ListElementDTO<ProjectDTO> getProjects(int idGroup, PageInfoDTO pageInfoDTO) throws RestClientException {
+        URI uri = buildUri(getGroupProjectsUrlFormat.format(new Object[] { idGroup }), pageInfoDTO);
+        ResponseEntity<ProjectDTO[]> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, buildAuthHeaders(),
                 ProjectDTO[].class);
         return buiListElementDTO(responseEntity);
     }

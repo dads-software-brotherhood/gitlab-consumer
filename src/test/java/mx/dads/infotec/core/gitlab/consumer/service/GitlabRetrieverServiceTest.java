@@ -94,21 +94,22 @@ public class GitlabRetrieverServiceTest {
     }
 
     @Test
-    public void getGroupsTestParam() {
+    public void getGroupsParamTest() {
         groupsTest(new PageInfoDTO(2, 5));
     }
 
     private void groupsTest(PageInfoDTO pageInfoDTO) {
         ListElementDTO<GroupDTO> groupsDto;
+        String urlPart = URL + GROUPS;
 
         if (pageInfoDTO == null) {
-            this.server.expect(requestTo(URL + GROUPS))
+            this.server.expect(requestTo(urlPart))
                     .andRespond(withSuccess(groupsContent, MediaType.APPLICATION_JSON_UTF8).headers(groupsHeaders));
             groupsDto = this.gitlabRetrieverService.getGroups();
         } else {
             this.server
                     .expect(requestTo(
-                            URL + GROUPS + "?page=" + pageInfoDTO.getPage() + "&per_page=" + pageInfoDTO.getPerPage()))
+                            urlPart + "?page=" + pageInfoDTO.getPage() + "&per_page=" + pageInfoDTO.getPerPage()))
                     .andRespond(withSuccess(groupsContent, MediaType.APPLICATION_JSON_UTF8).headers(groupsHeaders));
             groupsDto = this.gitlabRetrieverService.getGroups(pageInfoDTO);
         }
@@ -140,10 +141,31 @@ public class GitlabRetrieverServiceTest {
 
     @Test
     public void getProjectGroupsTest() {
-        this.server.expect(requestTo(getProjectsUrlFormat.format(new Object[] { ID_GROUP })))
-                .andRespond(withSuccess(groupProjectsContent, MediaType.APPLICATION_JSON_UTF8));
+        projectGroupsTest(null);
+    }
 
-        ListElementDTO<ProjectDTO> projects = this.gitlabRetrieverService.getProjects(ID_GROUP);
+    @Test
+    public void getProjectGroupsParamTest() {
+        projectGroupsTest(new PageInfoDTO(2, 5));
+    }
+
+    private void projectGroupsTest(PageInfoDTO pageInfoDTO) {
+        ListElementDTO<ProjectDTO> projects;
+        String urlPart = getProjectsUrlFormat.format(new Object[] { ID_GROUP });
+
+        if (pageInfoDTO == null) {
+            this.server.expect(requestTo(urlPart))
+                    .andRespond(withSuccess(groupProjectsContent, MediaType.APPLICATION_JSON_UTF8));
+
+            projects = this.gitlabRetrieverService.getProjects(ID_GROUP);
+        } else {
+            this.server
+                    .expect(requestTo(
+                            urlPart + "?page=" + pageInfoDTO.getPage() + "&per_page=" + pageInfoDTO.getPerPage()))
+                    .andRespond(
+                            withSuccess(groupProjectsContent, MediaType.APPLICATION_JSON_UTF8).headers(groupsHeaders));
+            projects = this.gitlabRetrieverService.getProjects(ID_GROUP, pageInfoDTO);
+        }
 
         assert projects != null && projects.getList() != null : "Is invalid";
 

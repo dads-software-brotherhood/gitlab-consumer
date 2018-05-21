@@ -24,7 +24,7 @@ public interface GitlabRetrieverService {
     ListElementDTO<GroupDTO> getGroups() throws RestClientException;
 
     /**
-     * Get groups list.
+     * Get groups list with custom page.
      *
      * @param pageInfoDTO Pagintation info (page and perPAge attributes are
      *                    required).
@@ -37,10 +37,21 @@ public interface GitlabRetrieverService {
      * Get group's projects list.
      *
      * @param idGroup Group ID
-     * @return Group
+     * @return Project's group.
      * @throws RestClientException
      */
     ListElementDTO<ProjectDTO> getProjects(int idGroup) throws RestClientException;
+
+    /**
+     * Get group's projects with custom page.
+     *
+     * @param idGroup Group ID
+     * @param pageInfoDTO Pagintation info (page and perPAge attributes are
+     *                    required).
+     * @return Project's group.
+     * @throws RestClientException
+     */
+    ListElementDTO<ProjectDTO> getProjects(int idGroup, PageInfoDTO pageInfoDTO) throws RestClientException;
 
     /**
      * Retrieve a commit's project.
@@ -52,7 +63,7 @@ public interface GitlabRetrieverService {
     ListElementDTO<CommitDTO> getCommits(int idProject) throws RestClientException;
 
     /**
-     * Retrieve a commit's project.
+     * Retrieve a commit's project with custom page.
      * 
      * @param idProject   Project ID.
      * @param pageInfoDTO Pagintation info (page and perPAge attributes are
