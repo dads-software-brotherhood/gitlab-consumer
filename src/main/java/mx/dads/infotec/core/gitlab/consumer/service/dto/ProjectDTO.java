@@ -48,7 +48,7 @@ public class ProjectDTO implements Serializable {
     private String runnersToken;
     private Boolean publicJobs;
     private String ciConfigPath;
-    private List<Object> sharedWithGroups = null;
+    private List<GroupDTO> sharedWithGroups = null;
     private Boolean onlyAllowMergeIfPipelineSucceeds;
     private Boolean requestAccessEnabled;
     private Boolean onlyAllowMergeIfAllDiscussionsAreResolved;
@@ -343,11 +343,11 @@ public class ProjectDTO implements Serializable {
         this.ciConfigPath = ciConfigPath;
     }
 
-    public List<Object> getSharedWithGroups() {
+    public List<GroupDTO> getSharedWithGroups() {
         return sharedWithGroups;
     }
 
-    public void setSharedWithGroups(List<Object> sharedWithGroups) {
+    public void setSharedWithGroups(List<GroupDTO> sharedWithGroups) {
         this.sharedWithGroups = sharedWithGroups;
     }
 

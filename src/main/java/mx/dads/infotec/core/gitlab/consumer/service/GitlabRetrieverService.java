@@ -1,7 +1,5 @@
 package mx.dads.infotec.core.gitlab.consumer.service;
 
-import org.springframework.web.client.RestClientException;
-
 import mx.dads.infotec.core.gitlab.consumer.service.dto.CommitDTO;
 import mx.dads.infotec.core.gitlab.consumer.service.dto.GroupDTO;
 import mx.dads.infotec.core.gitlab.consumer.service.dto.ListElementDTO;
@@ -19,9 +17,8 @@ public interface GitlabRetrieverService {
      * Get groups list.
      *
      * @return Groups list with pagination info.
-     * @throws RestClientException
      */
-    ListElementDTO<GroupDTO> getGroups() throws RestClientException;
+    ListElementDTO<GroupDTO> getGroups();
 
     /**
      * Get groups list with custom page.
@@ -29,38 +26,34 @@ public interface GitlabRetrieverService {
      * @param pageInfoDTO Pagintation info (page and perPAge attributes are
      *                    required).
      * @return Groups list with pagination info.
-     * @throws RestClientException
      */
-    ListElementDTO<GroupDTO> getGroups(PageInfoDTO pageInfoDTO) throws RestClientException;
+    ListElementDTO<GroupDTO> getGroups(PageInfoDTO pageInfoDTO);
 
     /**
      * Get group's projects list.
      *
      * @param idGroup Group ID
      * @return Project's group.
-     * @throws RestClientException
      */
-    ListElementDTO<ProjectDTO> getProjects(int idGroup) throws RestClientException;
+    ListElementDTO<ProjectDTO> getProjects(int idGroup);
 
     /**
      * Get group's projects with custom page.
      *
-     * @param idGroup Group ID
+     * @param idGroup     Group ID
      * @param pageInfoDTO Pagintation info (page and perPAge attributes are
      *                    required).
      * @return Project's group.
-     * @throws RestClientException
      */
-    ListElementDTO<ProjectDTO> getProjects(int idGroup, PageInfoDTO pageInfoDTO) throws RestClientException;
+    ListElementDTO<ProjectDTO> getProjects(int idGroup, PageInfoDTO pageInfoDTO);
 
     /**
      * Retrieve a commit's project.
      * 
      * @param idProject Project ID.
      * @return Commits list with pagination info.
-     * @throws RestClientException
      */
-    ListElementDTO<CommitDTO> getCommits(int idProject) throws RestClientException;
+    ListElementDTO<CommitDTO> getCommits(int idProject);
 
     /**
      * Retrieve a commit's project with custom page.
@@ -69,17 +62,15 @@ public interface GitlabRetrieverService {
      * @param pageInfoDTO Pagintation info (page and perPAge attributes are
      *                    required).
      * @return Commits list with pagination info.
-     * @throws RestClientException
      */
-    ListElementDTO<CommitDTO> getCommits(int idProject, PageInfoDTO pageInfoDTO) throws RestClientException;
+    ListElementDTO<CommitDTO> getCommits(int idProject, PageInfoDTO pageInfoDTO);
 
     /**
      * Retrieve a single commit info.
      * 
      * @param idProject Project ID.
      * @param shaCommit Teh
-     * @throws RestClientException
      */
-    CommitDTO getSingleCommit(int idProject, String shaCommit) throws RestClientException;
+    CommitDTO getSingleCommit(int idProject, String shaCommit);
 
 }

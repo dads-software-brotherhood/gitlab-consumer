@@ -98,7 +98,7 @@ public class GitlabRetrieverServiceTest {
         groupsTest(new PageInfoDTO(2, 5));
     }
 
-    private void groupsTest(PageInfoDTO pageInfoDTO) {
+    private void groupsTest(PageInfoDTO pageInfoDTO) throws AssertionError {
         ListElementDTO<GroupDTO> groupsDto;
         String urlPart = URL + GROUPS;
 
@@ -149,7 +149,7 @@ public class GitlabRetrieverServiceTest {
         projectGroupsTest(new PageInfoDTO(2, 5));
     }
 
-    private void projectGroupsTest(PageInfoDTO pageInfoDTO) {
+    private void projectGroupsTest(PageInfoDTO pageInfoDTO) throws AssertionError {
         ListElementDTO<ProjectDTO> projects;
         String urlPart = getProjectsUrlFormat.format(new Object[] { ID_GROUP });
 

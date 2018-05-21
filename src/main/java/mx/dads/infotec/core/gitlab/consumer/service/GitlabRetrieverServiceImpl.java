@@ -20,7 +20,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -64,12 +63,12 @@ public class GitlabRetrieverServiceImpl implements GitlabRetrieverService {
     }
 
     @Override
-    public ListElementDTO<GroupDTO> getGroups() throws RestClientException {
+    public ListElementDTO<GroupDTO> getGroups() {
         return getGroups(null);
     }
 
     @Override
-    public ListElementDTO<GroupDTO> getGroups(PageInfoDTO pageInfoDTO) throws RestClientException {
+    public ListElementDTO<GroupDTO> getGroups(PageInfoDTO pageInfoDTO) {
         URI uri = buildUri(getGroupsUrl, pageInfoDTO);
         ResponseEntity<GroupDTO[]> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, buildAuthHeaders(),
                 GroupDTO[].class);
@@ -77,12 +76,12 @@ public class GitlabRetrieverServiceImpl implements GitlabRetrieverService {
     }
 
     @Override
-    public ListElementDTO<ProjectDTO> getProjects(int idGroup) throws RestClientException {
+    public ListElementDTO<ProjectDTO> getProjects(int idGroup) {
         return getProjects(idGroup, null);
     }
 
     @Override
-    public ListElementDTO<ProjectDTO> getProjects(int idGroup, PageInfoDTO pageInfoDTO) throws RestClientException {
+    public ListElementDTO<ProjectDTO> getProjects(int idGroup, PageInfoDTO pageInfoDTO) {
         URI uri = buildUri(getGroupProjectsUrlFormat.format(new Object[] { idGroup }), pageInfoDTO);
         ResponseEntity<ProjectDTO[]> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, buildAuthHeaders(),
                 ProjectDTO[].class);
@@ -90,12 +89,12 @@ public class GitlabRetrieverServiceImpl implements GitlabRetrieverService {
     }
 
     @Override
-    public ListElementDTO<CommitDTO> getCommits(int idProject) throws RestClientException {
+    public ListElementDTO<CommitDTO> getCommits(int idProject) {
         return getCommits(idProject, null);
     }
 
     @Override
-    public ListElementDTO<CommitDTO> getCommits(int idProject, PageInfoDTO pageInfoDTO) throws RestClientException {
+    public ListElementDTO<CommitDTO> getCommits(int idProject, PageInfoDTO pageInfoDTO) {
         URI uri = buildUri(getProjectCommitsUrlFormat.format(new Object[] { idProject }), pageInfoDTO);
         ResponseEntity<CommitDTO[]> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, buildAuthHeaders(),
                 CommitDTO[].class);
@@ -103,7 +102,7 @@ public class GitlabRetrieverServiceImpl implements GitlabRetrieverService {
     }
 
     @Override
-    public CommitDTO getSingleCommit(int idProject, String shaCommit) throws RestClientException {
+    public CommitDTO getSingleCommit(int idProject, String shaCommit) {
         return null;
     }
 

@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CommitDTO implements Serializable {
 
-    private final static long serialVersionUID = 7082147429372623785L;
+    private static final long serialVersionUID = 7082147429372623785L;
 
     @JsonProperty("id")
     private String id;
@@ -37,11 +37,11 @@ public class CommitDTO implements Serializable {
     @JsonProperty("committed_date")
     private Date committedDate;
     @JsonProperty("stats")
-    private CommitStatsDTO stats;
+    private Stats stats;
     @JsonProperty("status")
     private String status;
     @JsonProperty("last_pipeline")
-    private PipelineDTO lastPipeline;
+    private Pipeline lastPipeline;
     @JsonProperty("project_id")
     private Integer projectId;
 
@@ -166,12 +166,12 @@ public class CommitDTO implements Serializable {
     }
 
     @JsonProperty("stats")
-    public CommitStatsDTO getStats() {
+    public Stats getStats() {
         return stats;
     }
 
     @JsonProperty("stats")
-    public void setStats(CommitStatsDTO stats) {
+    public void setStats(Stats stats) {
         this.stats = stats;
     }
 
@@ -186,12 +186,12 @@ public class CommitDTO implements Serializable {
     }
 
     @JsonProperty("last_pipeline")
-    public PipelineDTO getLastPipeline() {
+    public Pipeline getLastPipeline() {
         return lastPipeline;
     }
 
     @JsonProperty("last_pipeline")
-    public void setLastPipeline(PipelineDTO lastPipeline) {
+    public void setLastPipeline(Pipeline lastPipeline) {
         this.lastPipeline = lastPipeline;
     }
 
@@ -203,5 +203,103 @@ public class CommitDTO implements Serializable {
     @JsonProperty("project_id")
     public void setProjectId(Integer projectId) {
         this.projectId = projectId;
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public class Stats implements Serializable {
+
+        private static final long serialVersionUID = -27527697034091943L;
+
+        @JsonProperty("additions")
+        private Integer additions;
+        @JsonProperty("deletions")
+        private Integer deletions;
+        @JsonProperty("total")
+        private Integer total;
+
+        @JsonProperty("additions")
+        public Integer getAdditions() {
+            return additions;
+        }
+
+        @JsonProperty("additions")
+        public void setAdditions(Integer additions) {
+            this.additions = additions;
+        }
+
+        @JsonProperty("deletions")
+        public Integer getDeletions() {
+            return deletions;
+        }
+
+        @JsonProperty("deletions")
+        public void setDeletions(Integer deletions) {
+            this.deletions = deletions;
+        }
+
+        @JsonProperty("total")
+        public Integer getTotal() {
+            return total;
+        }
+
+        @JsonProperty("total")
+        public void setTotal(Integer total) {
+            this.total = total;
+        }
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public class Pipeline implements Serializable {
+
+        private static final long serialVersionUID = 3837305041362953528L;
+
+        @JsonProperty("id")
+        private Integer id;
+        @JsonProperty("ref")
+        private String ref;
+        @JsonProperty("sha")
+        private String sha;
+        @JsonProperty("status")
+        private String status;
+
+        @JsonProperty("id")
+        public Integer getId() {
+            return id;
+        }
+
+        @JsonProperty("id")
+        public void setId(Integer id) {
+            this.id = id;
+        }
+
+        @JsonProperty("ref")
+        public String getRef() {
+            return ref;
+        }
+
+        @JsonProperty("ref")
+        public void setRef(String ref) {
+            this.ref = ref;
+        }
+
+        @JsonProperty("sha")
+        public String getSha() {
+            return sha;
+        }
+
+        @JsonProperty("sha")
+        public void setSha(String sha) {
+            this.sha = sha;
+        }
+
+        @JsonProperty("status")
+        public String getStatus() {
+            return status;
+        }
+
+        @JsonProperty("status")
+        public void setStatus(String status) {
+            this.status = status;
+        }
     }
 }
