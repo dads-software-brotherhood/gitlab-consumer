@@ -21,7 +21,7 @@ public class CommitDTO implements Serializable {
     @JsonProperty("created_at")
     private Date createdAt;
     @JsonProperty("parent_ids")
-    private List<String> parentIds = null;
+    private transient List<String> parentIds = null;
     @JsonProperty("message")
     private String message;
     @JsonProperty("author_name")

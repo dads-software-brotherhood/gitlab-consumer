@@ -19,7 +19,7 @@ public class ProjectDTO implements Serializable {
     private String pathWithNamespace;
     private String createdAt;
     private String defaultBranch;
-    private List<String> tagList = null;
+    private transient List<String> tagList = null;
     private String sshUrlToRepo;
     private String httpUrlToRepo;
     private String webUrl;
@@ -43,12 +43,12 @@ public class ProjectDTO implements Serializable {
     private Integer creatorId;
     private NamespaceDTO namespace;
     private String importStatus;
-    private Object importError;
+    private transient Object importError;
     private Integer openIssuesCount;
     private String runnersToken;
     private Boolean publicJobs;
     private String ciConfigPath;
-    private List<GroupDTO> sharedWithGroups = null;
+    private transient List<GroupDTO> sharedWithGroups = null;
     private Boolean onlyAllowMergeIfPipelineSucceeds;
     private Boolean requestAccessEnabled;
     private Boolean onlyAllowMergeIfAllDiscussionsAreResolved;
