@@ -19,6 +19,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -156,6 +157,7 @@ public class GitlabRetrieverServiceImpl implements GitlabRetrieverService {
         return pageInfoDTO;
     }
 
+    @Nullable
     private String getKey(String key, HttpHeaders headers) {
         if (headers.containsKey(key)) {
             List<String> tmp = headers.get(key);
@@ -167,6 +169,7 @@ public class GitlabRetrieverServiceImpl implements GitlabRetrieverService {
         return null;
     }
 
+    @Nullable
     private Integer getKeyAsNum(String key, HttpHeaders headers) {
         String tmp = getKey(key, headers);
 

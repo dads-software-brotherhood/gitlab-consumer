@@ -3,6 +3,8 @@ package mx.dads.infotec.core.gitlab.consumer.service;
 import static mx.dads.infotec.core.gitlab.consumer.service.ServiceConstants.GROUPS;
 import static mx.dads.infotec.core.gitlab.consumer.service.ServiceConstants.GROUP_PROJECTS;
 import static mx.dads.infotec.core.gitlab.consumer.service.ServiceConstants.PROJECT_COMMITS;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
@@ -27,6 +29,7 @@ import mx.dads.infotec.core.gitlab.consumer.service.dto.GroupDTO;
 import mx.dads.infotec.core.gitlab.consumer.service.dto.ListElementDTO;
 import mx.dads.infotec.core.gitlab.consumer.service.dto.PageInfoDTO;
 import mx.dads.infotec.core.gitlab.consumer.service.dto.ProjectDTO;
+import mx.dads.infotec.core.gitlab.consumer.util.DateUtils;
 import mx.dads.infotec.core.gitlab.consumer.util.TextUtils;
 
 /**
@@ -182,23 +185,57 @@ public class GitlabRetrieverServiceTest {
         assert projectDTO.getDefaultBranch() != null
                 && projectDTO.getDefaultBranch().equals("master") : "Expect master as Default Branch";
         assert projectDTO.getLinks() != null : "Except links not null";
+        assert projectDTO.getLinks().getSelf() != null
+                && projectDTO.getLinks().getSelf().equals("http://gitlab.dads.infotec.mx/api/v4/projects/227");
         assert projectDTO.getNamespace() != null : "Except namespace not null";
+        assert projectDTO.getNamespace().getFullPath() != null
+                && projectDTO.getNamespace().getFullPath().equals("repositorio-nacional");
     }
 
     @Test
     public void getCommitsTest() {
-        this.server.expect(requestTo(getProjectsCommitsUrlFormat.format(new Object[] { ID_PROJECT })))
-                .andRespond(withSuccess(projectCommitsContent, MediaType.APPLICATION_JSON_UTF8).headers(groupsHeaders));
+        commitsTest(null);
+    }
 
-        ListElementDTO<CommitDTO> commitsDto = this.gitlabRetrieverService.getCommits(ID_PROJECT);
+    @Test
+    public void getCommitsParamTest() {
+        commitsTest(new PageInfoDTO(2, 5));
+    }
+
+    private void commitsTest(PageInfoDTO pageInfoDTO) throws AssertionError {
+        ListElementDTO<CommitDTO> commitsDto;
+        String urlPart = getProjectsCommitsUrlFormat.format(new Object[] { ID_PROJECT });
+
+        if (pageInfoDTO == null) {
+            this.server.expect(requestTo(urlPart))
+            .andRespond(withSuccess(projectCommitsContent, MediaType.APPLICATION_JSON_UTF8).headers(groupsHeaders));
+
+            commitsDto = this.gitlabRetrieverService.getCommits(ID_PROJECT);
+        } else {
+            this.server.expect(requestTo(urlPart + "?page=" + pageInfoDTO.getPage() + "&per_page=" + pageInfoDTO.getPerPage()))
+            .andRespond(withSuccess(projectCommitsContent, MediaType.APPLICATION_JSON_UTF8).headers(groupsHeaders));
+
+            commitsDto = this.gitlabRetrieverService.getCommits(ID_PROJECT, pageInfoDTO);
+        }
 
         assert commitsDto != null && commitsDto.getList() != null : "Return is invalid";
         assert commitsDto.getPageInfoDTO() != null : "Expect page info data";
         assert commitsDto.getPageInfoDTO().getTotal() != null : "Total info";
-    }
 
-    public void getCommitsWithPageInfoTest() {
+        CommitDTO commitDTO = commitsDto.getList().get(0);
 
+        assertEquals("Expecto 'a6ef8ace9fc7adc8886d6f15c91a685fb61ad8a6' as ID", "a6ef8ace9fc7adc8886d6f15c91a685fb61ad8a6", commitDTO.getId());
+        assertEquals("a6ef8ace", commitDTO.getShortId());
+        assertEquals("Merge branch 'QA' into 'develop'", commitDTO.getTitle());
+        assertNotNull(commitDTO.getParentIds());
+        assertEquals(DateUtils.toDate("2018-04-02T14:27:05.000-05:00"), commitDTO.getCreatedAt());
+        assertEquals("Merge branch 'QA' into 'develop'\n\nQA to develop\n\nSee merge request repositorio-nacional/repositorio-institucional!19", commitDTO.getMessage());
+        assertEquals("Victor Daniel Gutierrez Rodriguez", commitDTO.getAuthorName());
+        assertEquals("vdaniel.gr@gmail.com", commitDTO.getAuthorEmail());
+        assertEquals(DateUtils.toDate("2018-04-02T14:27:05.000-05:00"), commitDTO.getAuthoredDate());
+        assertEquals("Victor Daniel Gutierrez Rodriguez", commitDTO.getCommitterName());
+        assertEquals("vdaniel.gr@gmail.com", commitDTO.getCommitterEmail());
+        assertEquals(DateUtils.toDate("2018-04-02T14:27:05.000-05:00"), commitDTO.getCommittedDate());
     }
 
 }

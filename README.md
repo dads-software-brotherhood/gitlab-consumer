@@ -8,12 +8,13 @@ Read info for stats from gitlap api v4
 
 Edit your `application.yml` and add:
 
-
 ```yaml
 application:
     gitlab:
-        api-url: <gitlab-api-url>
+        api-url: <gitlab-api-v4-url>
         security:
             token: <token>
             token-header-name: private_token
 ```
+
+> Remplace with actual values.
