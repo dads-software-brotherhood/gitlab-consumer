@@ -26,7 +26,7 @@ public final class TextUtils {
         try (InputStream is = resource.getInputStream()) {
             StringBuilder sb = new StringBuilder();
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
             String line;
             while ((line = br.readLine()) != null) {
                 sb.append(line).append('\n');

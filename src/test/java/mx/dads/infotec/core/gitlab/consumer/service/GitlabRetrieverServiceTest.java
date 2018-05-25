@@ -47,9 +47,13 @@ public class GitlabRetrieverServiceTest {
     private static final String EMPTY_JSON_LIST = "[]";
     private static final String EMPTY_JSON = "{}";
     private static final String URL = "http://localhost";
-    private static final Integer ID_GROUP = 1;
-    private static final Integer ID_PROJECT = 22;
+    private static final Integer ID_GROUP = 7;
+    private static final Integer ID_PROJECT = 227;
     private static final String COMMIT_HASH = "bad67193a377c1244bbb014595983621a2a7a09a";
+
+    private static final int PAGE = 2;
+    private static final int PER_PAGE = 5;
+    private static final int TOTAL_GROUPS = 40;
 
     private static MessageFormat getProjectsUrlFormat = new MessageFormat(URL + GROUP_PROJECTS);
     private static MessageFormat getProjectsCommitsUrlFormat = new MessageFormat(URL + PROJECT_COMMITS);
@@ -80,10 +84,10 @@ public class GitlabRetrieverServiceTest {
 
         groupsHeaders = new HttpHeaders();
         groupsHeaders.add("X-Next-Page", "3");
-        groupsHeaders.add("X-Page", "2");
-        groupsHeaders.add("X-Per-Page", "5");
+        groupsHeaders.add("X-Page", PAGE + "");
+        groupsHeaders.add("X-Per-Page", PER_PAGE + "");
         groupsHeaders.add("X-Prev-Page", "1");
-        groupsHeaders.add("X-Total", "40");
+        groupsHeaders.add("X-Total", TOTAL_GROUPS + "");
         groupsHeaders.add("X-Total-Pages", "8");
     }
 
@@ -112,7 +116,7 @@ public class GitlabRetrieverServiceTest {
 
     @Test
     public void getGroupsParamTest() {
-        groupsTest(new PageInfoDTO(2, 5));
+        groupsTest(new PageInfoDTO(PAGE, PER_PAGE));
     }
 
     private void groupsTest(PageInfoDTO pageInfoDTO) throws AssertionError {
@@ -131,29 +135,28 @@ public class GitlabRetrieverServiceTest {
             groupsDto = this.gitlabRetrieverService.getGroups(pageInfoDTO);
         }
 
-        assert groupsDto != null && groupsDto.getList() != null : "Return is invalid";
-        assert groupsDto.getList().size() == 5 : "Expect 5 elements";
-        assert groupsDto.getPageInfoDTO() != null : "Expect page info data";
-        assert groupsDto.getPageInfoDTO().getTotal() != null
-                && groupsDto.getPageInfoDTO().getTotal() == 40 : "40 Elements as total info";
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug(groupsDto.getPageInfoDTO().toString());
-
-            LOGGER.debug("Groups list:");
-
-            groupsDto.getList().forEach((groupDTO) -> LOGGER.debug(groupDTO.toString()));
-        }
+        assertNotNull(groupsDto);
+        assertNotNull(groupsDto.getList());
+        assertEquals(PER_PAGE, groupsDto.getList().size());
+        assertNotNull(groupsDto.getPageInfoDTO());
+        assertEquals(new Integer(TOTAL_GROUPS), groupsDto.getPageInfoDTO().getTotal());
 
         GroupDTO groupDTO = groupsDto.getList().get(0);
 
-        assert groupDTO.getId() != null && groupDTO.getId() == 7 : "Expect ID 7 in firts element";
-        assert groupDTO.getName() != null
-                && groupDTO.getName().equals("arquitectura-old") : "Expect 'arquitectura-old' as name";
-        assert groupDTO.getVisibility() != null
-                && groupDTO.getVisibility().equals("public") : "Expect 'public' as visibility";
-        assert groupDTO.getWebUrl() != null && groupDTO.getWebUrl().equals(
-                "http://gitlab.dads.infotec.mx/groups/arquitectura-old") : "Expect 'http://gitlab.dads.infotec.mx/groups/arquitectura-old' in webUrl";
+        String commonText = "arquitectura-old";
+
+        assertEquals(ID_GROUP, groupDTO.getId());
+        assertEquals(commonText, groupDTO.getName());
+        assertEquals(commonText, groupDTO.getPath());
+        assertEquals("Grupo de la antigua torre/coordinación de arquitectura", groupDTO.getDescription());
+        assertEquals("public", groupDTO.getVisibility());
+        assertEquals(Boolean.TRUE, groupDTO.getLfsEnabled());
+        assertEquals("http://gitlab.dads.infotec.mx/groups/arquitectura-old/avatar", groupDTO.getAvatarUrl());
+        assertEquals("http://gitlab.dads.infotec.mx/groups/arquitectura-old", groupDTO.getWebUrl());
+        assertEquals(Boolean.TRUE, groupDTO.getRequestAccessEnabled());
+        assertEquals(commonText, groupDTO.getFullName());
+        assertEquals(commonText, groupDTO.getFullPath());
+        assertEquals(new Integer(1), groupDTO.getParentId());
     }
 
     @Test
@@ -163,7 +166,7 @@ public class GitlabRetrieverServiceTest {
 
     @Test
     public void getProjectGroupsParamTest() {
-        projectGroupsTest(new PageInfoDTO(2, 5));
+        projectGroupsTest(new PageInfoDTO(PAGE, PER_PAGE));
     }
 
     private void projectGroupsTest(PageInfoDTO pageInfoDTO) throws AssertionError {
@@ -184,26 +187,60 @@ public class GitlabRetrieverServiceTest {
             projects = this.gitlabRetrieverService.getProjects(ID_GROUP, pageInfoDTO);
         }
 
-        assert projects != null && projects.getList() != null : "Is invalid";
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Projects list:");
-            projects.getList().forEach((projectDTO) -> LOGGER.debug(projectDTO.toString()));
-        }
+        assertNotNull(projects);
+        assertNotNull(projects.getList());
 
         ProjectDTO projectDTO = projects.getList().get(0);
 
-        assert projectDTO.getId() != null && projectDTO.getId() == 227 : "Expect 227 as ID";
-        assert projectDTO.getName() != null
-                && projectDTO.getName().equals("Conacyt-Catalogos") : "Expect 'Conacyt-Catalogos' as Name";
-        assert projectDTO.getDefaultBranch() != null
-                && projectDTO.getDefaultBranch().equals("master") : "Expect master as Default Branch";
-        assert projectDTO.getLinks() != null : "Except links not null";
-        assert projectDTO.getLinks().getSelf() != null
-                && projectDTO.getLinks().getSelf().equals("http://gitlab.dads.infotec.mx/api/v4/projects/227");
-        assert projectDTO.getNamespace() != null : "Except namespace not null";
-        assert projectDTO.getNamespace().getFullPath() != null
-                && projectDTO.getNamespace().getFullPath().equals("repositorio-nacional");
+        assertEquals(ID_PROJECT, projectDTO.getId());
+        assertEquals("Proyecto para catálogos", projectDTO.getDescription());
+        assertEquals("Conacyt-Catalogos", projectDTO.getName());
+        assertEquals("repositorio-nacional / Conacyt-Catalogos", projectDTO.getNameWithNamespace());
+        assertEquals("Conacyt-Catalogos", projectDTO.getPath());
+        assertEquals("repositorio-nacional/Conacyt-Catalogos", projectDTO.getPathWithNamespace());
+        assertEquals(DateUtils.toDate("2018-04-03T21:17:33.630Z"), projectDTO.getCreatedAt());
+        assertEquals("master", projectDTO.getDefaultBranch());
+        assertEquals("git@gitlab.dads.infotec.mx:repositorio-nacional/Conacyt-Catalogos.git", projectDTO.getSshUrlToRepo());
+        assertEquals("http://gitlab.dads.infotec.mx/repositorio-nacional/Conacyt-Catalogos.git", projectDTO.getHttpUrlToRepo());
+        assertEquals("http://gitlab.dads.infotec.mx/repositorio-nacional/Conacyt-Catalogos", projectDTO.getWebUrl());
+        assertEquals("http://gitlab.dads.infotec.mx/repositorio-nacional/Conacyt-Catalogos/avatar", projectDTO.getAvatarUrl());
+        assertEquals(new Integer(10), projectDTO.getStarCount());        
+        assertEquals(new Integer(15), projectDTO.getForksCount());        
+        assertEquals(DateUtils.toDate("2018-04-03T21:17:33.630Z"), projectDTO.getLastActivityAt());
+        assertNotNull(projectDTO.getLinks());
+        assertEquals("http://gitlab.dads.infotec.mx/api/v4/projects/227", projectDTO.getLinks().getSelf());
+        assertEquals("http://gitlab.dads.infotec.mx/api/v4/projects/227/issues", projectDTO.getLinks().getIssues());
+        assertEquals("http://gitlab.dads.infotec.mx/api/v4/projects/227/merge_requests", projectDTO.getLinks().getMergeRequests());
+        assertEquals("http://gitlab.dads.infotec.mx/api/v4/projects/227/repository/branches", projectDTO.getLinks().getRepoBranches());
+        assertEquals("http://gitlab.dads.infotec.mx/api/v4/projects/227/labels", projectDTO.getLinks().getLabels());
+        assertEquals("http://gitlab.dads.infotec.mx/api/v4/projects/227/events", projectDTO.getLinks().getEvents());
+        assertEquals("http://gitlab.dads.infotec.mx/api/v4/projects/227/members", projectDTO.getLinks().getMembers());
+        assertEquals(Boolean.FALSE, projectDTO.getArchived());
+        assertEquals("private", projectDTO.getVisibility());
+        assertEquals(Boolean.FALSE, projectDTO.getRequestAccessEnabled());
+        assertEquals(Boolean.TRUE, projectDTO.getContainerRegistryEnabled());
+        assertEquals(Boolean.TRUE, projectDTO.getIssuesEnabled());
+        assertEquals(Boolean.TRUE, projectDTO.getMergeRequestsEnabled());
+        assertEquals(Boolean.TRUE, projectDTO.getWikiEnabled());
+        assertEquals(Boolean.TRUE, projectDTO.getJobsEnabled());
+        assertEquals(Boolean.TRUE, projectDTO.getSnippetsEnabled());
+        assertEquals(Boolean.TRUE, projectDTO.getSharedRunnersEnabled());
+        assertEquals(Boolean.TRUE, projectDTO.getLfsEnabled());
+        assertEquals(new Integer(179), projectDTO.getCreatorId());
+        assertNotNull(projectDTO.getNamespace());
+        assertEquals(new Integer(25), projectDTO.getNamespace().getId());
+        assertEquals("repositorio-nacional", projectDTO.getNamespace().getName());
+        assertEquals("repositorio-nacional", projectDTO.getNamespace().getPath());
+        assertEquals("group", projectDTO.getNamespace().getKind());
+        assertEquals("repositorio-nacional", projectDTO.getNamespace().getFullPath());
+        assertEquals(new Integer(51), projectDTO.getNamespace().getParentId());
+        assertEquals("finished", projectDTO.getImportStatus());
+        assertEquals(new Integer(0), projectDTO.getOpenIssuesCount());
+        assertEquals(Boolean.TRUE, projectDTO.getPublicJobs());
+        assertEquals(Boolean.FALSE, projectDTO.getOnlyAllowMergeIfPipelineSucceeds());
+        assertEquals(Boolean.FALSE, projectDTO.getRequestAccessEnabled());
+        assertEquals(Boolean.FALSE, projectDTO.getOnlyAllowMergeIfAllDiscussionsAreResolved());
+        assertEquals(Boolean.TRUE, projectDTO.getPrintingMergeRequestLinkEnabled());
     }
 
     @Test
@@ -213,7 +250,7 @@ public class GitlabRetrieverServiceTest {
 
     @Test
     public void getCommitsParamTest() {
-        commitsTest(new PageInfoDTO(2, 5));
+        commitsTest(new PageInfoDTO(PAGE, PER_PAGE));
     }
 
     private void commitsTest(PageInfoDTO pageInfoDTO) throws AssertionError {

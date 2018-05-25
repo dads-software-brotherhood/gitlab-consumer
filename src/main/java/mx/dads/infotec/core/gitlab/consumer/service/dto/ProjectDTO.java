@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -17,7 +18,7 @@ public class ProjectDTO implements Serializable {
     private String nameWithNamespace;
     private String path;
     private String pathWithNamespace;
-    private String createdAt;
+    private Date createdAt;
     private String defaultBranch;
     private transient List<String> tagList = null;
     private String sshUrlToRepo;
@@ -26,7 +27,7 @@ public class ProjectDTO implements Serializable {
     private String avatarUrl;
     private Integer starCount;
     private Integer forksCount;
-    private String lastActivityAt;
+    private Date lastActivityAt;
     @JsonProperty("_links")
     private LinksDTO links;
     private Boolean archived;
@@ -103,11 +104,11 @@ public class ProjectDTO implements Serializable {
         this.pathWithNamespace = pathWithNamespace;
     }
 
-    public String getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -175,11 +176,11 @@ public class ProjectDTO implements Serializable {
         this.forksCount = forksCount;
     }
 
-    public String getLastActivityAt() {
+    public Date getLastActivityAt() {
         return lastActivityAt;
     }
 
-    public void setLastActivityAt(String lastActivityAt) {
+    public void setLastActivityAt(Date lastActivityAt) {
         this.lastActivityAt = lastActivityAt;
     }
 

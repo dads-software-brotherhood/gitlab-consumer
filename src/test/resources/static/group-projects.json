@@ -1,6 +1,6 @@
 [{
         "id": 227,
-        "description": null,
+        "description": "Proyecto para catálogos",
         "name": "Conacyt-Catalogos",
         "name_with_namespace": "repositorio-nacional / Conacyt-Catalogos",
         "path": "Conacyt-Catalogos",
@@ -11,9 +11,9 @@
         "ssh_url_to_repo": "git@gitlab.dads.infotec.mx:repositorio-nacional/Conacyt-Catalogos.git",
         "http_url_to_repo": "http://gitlab.dads.infotec.mx/repositorio-nacional/Conacyt-Catalogos.git",
         "web_url": "http://gitlab.dads.infotec.mx/repositorio-nacional/Conacyt-Catalogos",
-        "avatar_url": null,
-        "star_count": 0,
-        "forks_count": 0,
+        "avatar_url": "http://gitlab.dads.infotec.mx/repositorio-nacional/Conacyt-Catalogos/avatar",
+        "star_count": 10,
+        "forks_count": 15,
         "last_activity_at": "2018-04-03T21:17:33.630Z",
         "_links": {
             "self": "http://gitlab.dads.infotec.mx/api/v4/projects/227",
@@ -42,7 +42,7 @@
             "path": "repositorio-nacional",
             "kind": "group",
             "full_path": "repositorio-nacional",
-            "parent_id": null
+            "parent_id": 51
         },
         "import_status": "finished",
         "open_issues_count": 0,
