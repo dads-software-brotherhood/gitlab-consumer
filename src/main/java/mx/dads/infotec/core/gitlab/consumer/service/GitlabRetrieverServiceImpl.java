@@ -168,7 +168,7 @@ public class GitlabRetrieverServiceImpl implements GitlabRetrieverService {
     private String getKey(String key, HttpHeaders headers) {
         if (headers.containsKey(key)) {
             List<String> tmp = headers.get(key);
-            if (tmp != null && !tmp.isEmpty()) {
+            if (!tmp.isEmpty()) {
                 return tmp.get(0);
             }
         }
