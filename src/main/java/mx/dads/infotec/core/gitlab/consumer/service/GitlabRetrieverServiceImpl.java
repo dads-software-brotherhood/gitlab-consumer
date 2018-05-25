@@ -27,6 +27,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import mx.dads.infotec.core.gitlab.consumer.config.ApplicationProperties;
 import mx.dads.infotec.core.gitlab.consumer.service.dto.CommitDTO;
+import mx.dads.infotec.core.gitlab.consumer.service.dto.DateFilterDTO;
 import mx.dads.infotec.core.gitlab.consumer.service.dto.GroupDTO;
 import mx.dads.infotec.core.gitlab.consumer.service.dto.ListElementDTO;
 import mx.dads.infotec.core.gitlab.consumer.service.dto.PageInfoDTO;
@@ -95,7 +96,8 @@ public class GitlabRetrieverServiceImpl implements GitlabRetrieverService {
 
     @Override
     public ListElementDTO<CommitDTO> getCommits(int idProject) {
-        return getCommits(idProject, null);
+        PageInfoDTO pageInfoDTO = null;
+        return getCommits(idProject, pageInfoDTO);
     }
 
     @Override
@@ -114,7 +116,49 @@ public class GitlabRetrieverServiceImpl implements GitlabRetrieverService {
         return responseEntity.getBody();
     }
 
+    @Override
+    public ListElementDTO<CommitDTO> getCommits(int idProject, DateFilterDTO dateFilterDTO) {
+        URI uri = buildUri(getProjectCommitsUrlFormat.format(new Object[] { idProject }), null, dateFilterDTO);
+        ResponseEntity<CommitDTO[]> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, buildAuthHeaders(),
+                CommitDTO[].class);
+        return buiListElementDTO(responseEntity);
+    }
+
+    @Override
+    public ListElementDTO<CommitDTO> getCommits(int idProject, PageInfoDTO pageInfoDTO, DateFilterDTO dateFilterDTO) {
+        URI uri = buildUri(getProjectCommitsUrlFormat.format(new Object[] { idProject }), pageInfoDTO, dateFilterDTO);
+        ResponseEntity<CommitDTO[]> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, buildAuthHeaders(),
+                CommitDTO[].class);
+        return buiListElementDTO(responseEntity);
+    }
+
     private URI buildUri(String url, PageInfoDTO pageInfoDTO) {
+        UriComponentsBuilder ucb = buildUcb(url, pageInfoDTO);
+
+        URI uri = ucb.build().encode().toUri();
+        LOGGER.debug("URI: {}", uri);
+        return uri;
+    }
+
+    private URI buildUri(String url, PageInfoDTO pageInfoDTO, DateFilterDTO dateFilterDTO) {
+        UriComponentsBuilder ucb = buildUcb(url, pageInfoDTO);
+
+        if (dateFilterDTO != null) {
+            if (dateFilterDTO.getSince() != null) {
+                ucb.queryParam("since", dateFilterDTO.getSince());
+            }
+
+            if (dateFilterDTO.getUntil() != null) {
+                ucb.queryParam("until", dateFilterDTO.getUntil());
+            }
+        }
+
+        URI uri = ucb.build().encode().toUri();
+        LOGGER.debug("URI: {}", uri);
+        return uri;
+    }
+
+    private UriComponentsBuilder buildUcb(String url, PageInfoDTO pageInfoDTO) {
         UriComponentsBuilder ucb = UriComponentsBuilder.fromHttpUrl(url);
 
         if (pageInfoDTO != null && pageInfoDTO.getPage() != null) {
@@ -125,9 +169,7 @@ public class GitlabRetrieverServiceImpl implements GitlabRetrieverService {
             }
         }
 
-        URI uri = ucb.build().encode().toUri();
-        LOGGER.debug("URI: {}", uri);
-        return uri;
+        return ucb;
     }
 
     private <T extends Serializable> ListElementDTO<T> buiListElementDTO(ResponseEntity<T[]> responseEntity) {

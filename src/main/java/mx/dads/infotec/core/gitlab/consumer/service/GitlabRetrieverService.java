@@ -1,6 +1,7 @@
 package mx.dads.infotec.core.gitlab.consumer.service;
 
 import mx.dads.infotec.core.gitlab.consumer.service.dto.CommitDTO;
+import mx.dads.infotec.core.gitlab.consumer.service.dto.DateFilterDTO;
 import mx.dads.infotec.core.gitlab.consumer.service.dto.GroupDTO;
 import mx.dads.infotec.core.gitlab.consumer.service.dto.ListElementDTO;
 import mx.dads.infotec.core.gitlab.consumer.service.dto.PageInfoDTO;
@@ -64,6 +65,26 @@ public interface GitlabRetrieverService {
      * @return Commits list with pagination info.
      */
     ListElementDTO<CommitDTO> getCommits(int idProject, PageInfoDTO pageInfoDTO);
+
+    /**
+     * Retrieve a commit's project.
+     * 
+     * @param idProject     Project ID.
+     * @param dateFilterDTO Date info for filter commits.
+     * @return Commits list with pagination info.
+     */
+    ListElementDTO<CommitDTO> getCommits(int idProject, DateFilterDTO dateFilterDTO);
+
+    /**
+     * Retrieve a commit's project with custom page.
+     * 
+     * @param idProject     Project ID.
+     * @param pageInfoDTO   Pagintation info (page and perPAge attributes are
+     *                      required).
+     * @param dateFilterDTO Date info for filter commits.
+     * @return Commits list with pagination info.
+     */
+    ListElementDTO<CommitDTO> getCommits(int idProject, PageInfoDTO pageInfoDTO, DateFilterDTO dateFilterDTO);
 
     /**
      * Retrieve a single commit info.
