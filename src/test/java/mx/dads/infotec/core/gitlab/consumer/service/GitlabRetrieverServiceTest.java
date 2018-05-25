@@ -3,6 +3,7 @@ package mx.dads.infotec.core.gitlab.consumer.service;
 import static mx.dads.infotec.core.gitlab.consumer.service.ServiceConstants.GROUPS;
 import static mx.dads.infotec.core.gitlab.consumer.service.ServiceConstants.GROUP_PROJECTS;
 import static mx.dads.infotec.core.gitlab.consumer.service.ServiceConstants.PROJECT_COMMITS;
+import static mx.dads.infotec.core.gitlab.consumer.service.ServiceConstants.PROJECT_SINGLE_COMMIT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
@@ -47,9 +48,11 @@ public class GitlabRetrieverServiceTest {
     private static final String URL = "http://localhost";
     private static final Integer ID_GROUP = 1;
     private static final Integer ID_PROJECT = 22;
+    private static final String COMMIT_HASH = "bad67193a377c1244bbb014595983621a2a7a09a";
 
     private static MessageFormat getProjectsUrlFormat = new MessageFormat(URL + GROUP_PROJECTS);
     private static MessageFormat getProjectsCommitsUrlFormat = new MessageFormat(URL + PROJECT_COMMITS);
+    private static MessageFormat getProjectSingleCommitUrlFormat = new MessageFormat(URL + PROJECT_SINGLE_COMMIT);
 
     @Autowired
     private GitlabRetrieverService gitlabRetrieverService;
@@ -63,6 +66,7 @@ public class GitlabRetrieverServiceTest {
     private String groupsContent;
     private String groupProjectsContent;
     private String projectCommitsContent;
+    private String projectSingleCommitContent;
 
     private HttpHeaders groupsHeaders;
 
@@ -71,6 +75,7 @@ public class GitlabRetrieverServiceTest {
         groupsContent = loadContent("groups.json");
         groupProjectsContent = loadContent("group-projects.json");
         projectCommitsContent = loadContent("project-commits.json");
+        projectSingleCommitContent = loadContent("project-single-commit.json");
 
         groupsHeaders = new HttpHeaders();
         groupsHeaders.add("X-Next-Page", "3");
@@ -207,13 +212,16 @@ public class GitlabRetrieverServiceTest {
         String urlPart = getProjectsCommitsUrlFormat.format(new Object[] { ID_PROJECT });
 
         if (pageInfoDTO == null) {
-            this.server.expect(requestTo(urlPart))
-            .andRespond(withSuccess(projectCommitsContent, MediaType.APPLICATION_JSON_UTF8).headers(groupsHeaders));
+            this.server.expect(requestTo(urlPart)).andRespond(
+                    withSuccess(projectCommitsContent, MediaType.APPLICATION_JSON_UTF8).headers(groupsHeaders));
 
             commitsDto = this.gitlabRetrieverService.getCommits(ID_PROJECT);
         } else {
-            this.server.expect(requestTo(urlPart + "?page=" + pageInfoDTO.getPage() + "&per_page=" + pageInfoDTO.getPerPage()))
-            .andRespond(withSuccess(projectCommitsContent, MediaType.APPLICATION_JSON_UTF8).headers(groupsHeaders));
+            this.server
+                    .expect(requestTo(
+                            urlPart + "?page=" + pageInfoDTO.getPage() + "&per_page=" + pageInfoDTO.getPerPage()))
+                    .andRespond(
+                            withSuccess(projectCommitsContent, MediaType.APPLICATION_JSON_UTF8).headers(groupsHeaders));
 
             commitsDto = this.gitlabRetrieverService.getCommits(ID_PROJECT, pageInfoDTO);
         }
@@ -222,14 +230,35 @@ public class GitlabRetrieverServiceTest {
         assert commitsDto.getPageInfoDTO() != null : "Expect page info data";
         assert commitsDto.getPageInfoDTO().getTotal() != null : "Total info";
 
-        CommitDTO commitDTO = commitsDto.getList().get(0);
+        revBasicCommit(commitsDto.getList().get(0));
+    }
 
-        assertEquals("Expecto 'a6ef8ace9fc7adc8886d6f15c91a685fb61ad8a6' as ID", "a6ef8ace9fc7adc8886d6f15c91a685fb61ad8a6", commitDTO.getId());
+    @Test
+    public void getSingleCommitTest() {
+        this.server.expect(requestTo(getProjectSingleCommitUrlFormat.format(new Object[] { ID_PROJECT, COMMIT_HASH })))
+                .andRespond(withSuccess(projectSingleCommitContent, MediaType.APPLICATION_JSON_UTF8));
+        
+        CommitDTO commitDTO = this.gitlabRetrieverService.getSingleCommit(ID_PROJECT, COMMIT_HASH);
+
+        revBasicCommit(commitDTO);
+
+        assertNotNull(commitDTO.getStats() != null);
+        assertEquals(ID_PROJECT, commitDTO.getProjectId());
+        assertEquals(new Integer(5), commitDTO.getStats().getAdditions());
+        assertEquals(new Integer(5), commitDTO.getStats().getDeletions());
+        assertEquals(new Integer(10), commitDTO.getStats().getTotal());
+    }
+
+    private void revBasicCommit(CommitDTO commitDTO) throws AssertionError {
+        assertEquals("Expecto 'a6ef8ace9fc7adc8886d6f15c91a685fb61ad8a6' as ID",
+                "a6ef8ace9fc7adc8886d6f15c91a685fb61ad8a6", commitDTO.getId());
         assertEquals("a6ef8ace", commitDTO.getShortId());
         assertEquals("Merge branch 'QA' into 'develop'", commitDTO.getTitle());
         assertNotNull(commitDTO.getParentIds());
         assertEquals(DateUtils.toDate("2018-04-02T14:27:05.000-05:00"), commitDTO.getCreatedAt());
-        assertEquals("Merge branch 'QA' into 'develop'\n\nQA to develop\n\nSee merge request repositorio-nacional/repositorio-institucional!19", commitDTO.getMessage());
+        assertEquals(
+                "Merge branch 'QA' into 'develop'\n\nQA to develop\n\nSee merge request repositorio-nacional/repositorio-institucional!19",
+                commitDTO.getMessage());
         assertEquals("Victor Daniel Gutierrez Rodriguez", commitDTO.getAuthorName());
         assertEquals("vdaniel.gr@gmail.com", commitDTO.getAuthorEmail());
         assertEquals(DateUtils.toDate("2018-04-02T14:27:05.000-05:00"), commitDTO.getAuthoredDate());

@@ -3,6 +3,7 @@ package mx.dads.infotec.core.gitlab.consumer.service;
 import static mx.dads.infotec.core.gitlab.consumer.service.ServiceConstants.GROUPS;
 import static mx.dads.infotec.core.gitlab.consumer.service.ServiceConstants.GROUP_PROJECTS;
 import static mx.dads.infotec.core.gitlab.consumer.service.ServiceConstants.PROJECT_COMMITS;
+import static mx.dads.infotec.core.gitlab.consumer.service.ServiceConstants.PROJECT_SINGLE_COMMIT;
 
 import java.io.Serializable;
 import java.net.URI;
@@ -45,6 +46,7 @@ public class GitlabRetrieverServiceImpl implements GitlabRetrieverService {
 
     private MessageFormat getGroupProjectsUrlFormat;
     private MessageFormat getProjectCommitsUrlFormat;
+    private MessageFormat getProjectSingleCommitUrlFormat;
 
     @Autowired
     private ApplicationProperties applicationProperties;
@@ -61,6 +63,8 @@ public class GitlabRetrieverServiceImpl implements GitlabRetrieverService {
         getGroupsUrl = applicationProperties.getGitlab().getApiUrl() + GROUPS;
         getGroupProjectsUrlFormat = new MessageFormat(applicationProperties.getGitlab().getApiUrl() + GROUP_PROJECTS);
         getProjectCommitsUrlFormat = new MessageFormat(applicationProperties.getGitlab().getApiUrl() + PROJECT_COMMITS);
+        getProjectSingleCommitUrlFormat = new MessageFormat(
+                applicationProperties.getGitlab().getApiUrl() + PROJECT_SINGLE_COMMIT);
     }
 
     @Override
@@ -104,7 +108,10 @@ public class GitlabRetrieverServiceImpl implements GitlabRetrieverService {
 
     @Override
     public CommitDTO getSingleCommit(int idProject, String shaCommit) {
-        return null;
+        ResponseEntity<CommitDTO> responseEntity = restTemplate.exchange(
+                getProjectSingleCommitUrlFormat.format(new Object[] { idProject, shaCommit }), HttpMethod.GET,
+                buildAuthHeaders(), CommitDTO.class);
+        return responseEntity.getBody();
     }
 
     private URI buildUri(String url, PageInfoDTO pageInfoDTO) {
