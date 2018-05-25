@@ -44,7 +44,8 @@ public class GitlabRetrieverServiceTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GitlabRetrieverServiceTest.class);
 
-    private static final String JSON_LIST = "[]";
+    private static final String EMPTY_JSON_LIST = "[]";
+    private static final String EMPTY_JSON = "{}";
     private static final String URL = "http://localhost";
     private static final Integer ID_GROUP = 1;
     private static final Integer ID_PROJECT = 22;
@@ -72,10 +73,10 @@ public class GitlabRetrieverServiceTest {
 
     @Before
     public void setup() {
-        groupsContent = loadContent("groups.json");
-        groupProjectsContent = loadContent("group-projects.json");
-        projectCommitsContent = loadContent("project-commits.json");
-        projectSingleCommitContent = loadContent("project-single-commit.json");
+        groupsContent = loadListContent("groups.json");
+        groupProjectsContent = loadListContent("group-projects.json");
+        projectCommitsContent = loadListContent("project-commits.json");
+        projectSingleCommitContent = loadSingleContent("project-single-commit.json");
 
         groupsHeaders = new HttpHeaders();
         groupsHeaders.add("X-Next-Page", "3");
@@ -86,16 +87,24 @@ public class GitlabRetrieverServiceTest {
         groupsHeaders.add("X-Total-Pages", "8");
     }
 
-    private String loadContent(String file) {
+    private String loadListContent(String file) {
+        return loadContent(file, EMPTY_JSON_LIST);
+    }
+
+    private String loadSingleContent(String file) {
+        return loadContent(file, EMPTY_JSON);
+    }
+
+    private String loadContent(String file, String defaultValue) {
         Resource resource = resourceLoader.getResource("classpath:static/" + file);
 
         if (resource.exists()) {
-            return TextUtils.readText(resource, JSON_LIST);
+            return TextUtils.readText(resource, defaultValue);
         } else {
-            return JSON_LIST;
+            return defaultValue;
         }
     }
-
+    
     @Test
     public void getGroupsTest() {
         groupsTest(null);
