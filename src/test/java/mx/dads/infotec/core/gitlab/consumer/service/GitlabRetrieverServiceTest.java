@@ -14,8 +14,6 @@ import java.text.MessageFormat;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.core.io.Resource;
@@ -41,8 +39,6 @@ import mx.dads.infotec.core.gitlab.consumer.util.TextUtils;
 @RunWith(SpringRunner.class)
 @RestClientTest(GitlabRetrieverService.class)
 public class GitlabRetrieverServiceTest {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(GitlabRetrieverServiceTest.class);
 
     private static final String EMPTY_JSON_LIST = "[]";
     private static final String EMPTY_JSON = "{}";
@@ -272,9 +268,10 @@ public class GitlabRetrieverServiceTest {
             commitsDto = this.gitlabRetrieverService.getCommits(ID_PROJECT, pageInfoDTO);
         }
 
-        assert commitsDto != null && commitsDto.getList() != null : "Return is invalid";
-        assert commitsDto.getPageInfoDTO() != null : "Expect page info data";
-        assert commitsDto.getPageInfoDTO().getTotal() != null : "Total info";
+        assertNotNull(commitsDto);
+        assertNotNull(commitsDto.getList());
+        assertNotNull(commitsDto.getPageInfoDTO());
+        assertNotNull(commitsDto.getPageInfoDTO().getTotal());
 
         revBasicCommit(commitsDto.getList().get(0));
     }
